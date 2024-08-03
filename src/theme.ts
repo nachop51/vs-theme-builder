@@ -2,13 +2,13 @@ import { type FullTheme } from './types.js'
 
 interface createThemeOptions {
   name: string
-  template: FullTheme
+  scheme: FullTheme
   isBordered: boolean
 }
 
-export default function createTheme ({ name, template: scheme, isBordered }: createThemeOptions) {
+export default function buildThemeFromScheme ({ name, scheme, isBordered }: createThemeOptions) {
   return {
-    name: `${name}${isBordered ? '  Bordered' : ''}`,
+    name: `${name}${isBordered ? ' Bordered' : ''}`,
     type: scheme.type,
     semanticHighlighting: true,
     semanticTokenColors: {
@@ -494,7 +494,7 @@ export default function createTheme ({ name, template: scheme, isBordered }: cre
           'meta.function-call.generic'
         ],
         settings: {
-          foreground: scheme.syntax.func.call.hex()
+          foreground: scheme.syntax.func.name.hex()
         }
       },
       {
@@ -609,7 +609,7 @@ export default function createTheme ({ name, template: scheme, isBordered }: cre
         name: 'Function and & Lambda arrow',
         scope: ['storage.type.function'],
         settings: {
-          foreground: scheme.syntax.func.lambda.hex()
+          foreground: scheme.syntax.keyword.hex()
         }
       },
       {

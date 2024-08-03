@@ -1,6 +1,5 @@
-import darkTheme from './templates/dark.js'
-import lightTheme from './templates/light.js'
-import createTemplate from './createTemplate.js'
-import createTheme from './createTheme.js'
+import exampleTheme from './example/dark.js'
+import createSchemeFromColors from './scheme.js'
+import buildThemeFromScheme from './theme.js'
 
-export { darkTheme, lightTheme, createTemplate, createTheme }
+export { exampleTheme, createSchemeFromColors, buildThemeFromScheme }

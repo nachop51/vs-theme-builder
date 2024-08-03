@@ -1,15 +1,18 @@
 import color from 'chroma-js'
-import { type Editor, type Syntax, type Terminal, type UserInterface, type ColorScheme, type Git, type Common } from './types.js'
+import type { Editor, Syntax, Terminal, UserInterface, ColorScheme, Git, Common, FullTheme } from './types.js'
 
-export default function createTemplate (colors: ColorScheme) {
+interface createSchemeFromColorsProps {
+  colors: ColorScheme
+  type?: 'dark' | 'light'
+}
+
+export default function createSchemeFromColors ({ colors, type = 'dark' }: createSchemeFromColorsProps): FullTheme {
   const syntax: Syntax = {
     keyword: color(colors.keyword),
 
     func: {
       name: color(colors.func.name),
-      param: color(colors.func.param),
-      lambda: color(colors.func.lambda),
-      call: color(colors.func.call)
+      param: color(colors.func.param)
     },
 
     class: {
@@ -20,12 +23,12 @@ export default function createTemplate (colors: ColorScheme) {
       html: {
         tag: color(colors.punctuation),
         tagName: color(colors.variables),
-        attributes: color('#DB967B')
+        attributes: color(colors.macros).luminance(0.35).brighten(0.3)
       },
       css: {
         class: color(colors.class),
         id: color(colors.regexp),
-        pseudo: color('#ABC1FF'),
+        pseudo: color(colors.punctuation),
         properties: color(colors.func.name).brighten(0.75),
         units: color(colors.numeric)
       },
@@ -133,6 +136,7 @@ export default function createTemplate (colors: ColorScheme) {
   }
 
   return {
+    type,
     syntax,
     editor,
     ui,

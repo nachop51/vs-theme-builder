@@ -1,12 +1,27 @@
 import type { Color } from 'chroma-js'
 
+interface createSchemeFromColorsProps {
+  colors: ColorScheme
+  type?: 'dark' | 'light'
+}
+
+export declare function createSchemeFromColors ({ colors, type }: createSchemeFromColorsProps): FullTheme
+
+interface createThemeOptions {
+  name: string
+  scheme: FullTheme
+  isBordered: boolean
+}
+
+export declare function buildThemeFromScheme ({ name, scheme, isBordered }: createThemeOptions): object
+
+export declare const exampleTheme: FullTheme
+
 export interface Syntax {
   keyword: Color
   func: {
     name: Color
     param: Color
-    lambda: Color
-    call: Color
   }
 
   class: {
@@ -170,8 +185,6 @@ export interface ColorScheme {
   func: {
     name: string
     param: string
-    lambda: string
-    call: string
   }
 
   const: string

@@ -1,16 +1,17 @@
 {
   "name": "vs-theme-builder",
-  "version": "1.0.0",
+  "version": "1.0.25",
   "description": "",
   "type": "module",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "src/types.d.ts",
   "files": [
-    "/dist"
+    "/dist",
+    "/src/types.d.ts"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Nachop51/vs-theme-builder.git"
+    "url": "git+https://github.com/Nachop51/vs-theme-builder.git"
   },
   "bugs": {
     "url": "https://github.com/Nachop51/vs-theme-builder.git",
@@ -18,7 +19,8 @@
   },
   "scripts": {
     "lint": "eslint . --ext .ts --fix",
-    "build": "tsx src/build.ts",
+    "build": "tsc",
+    "prepublish": "npm run lint && npm run build",
     "dev": "tsx --watch src/build.ts"
   },
   "keywords": [],
