@@ -23,8 +23,14 @@
     "prepublish": "npm run lint && npm run build",
     "dev": "tsx --watch src/build.ts"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "vscode",
+    "theme",
+    "builder",
+    "generator",
+    "color"
+  ],
+  "author": "Ignacio Peralta",
   "license": "ISC",
   "dependencies": {
     "typescript": "^5.4.3",
