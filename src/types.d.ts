@@ -173,19 +173,9 @@ export interface ColorScheme {
   primaryContent: string
   accent: string
 
-  success: string
-  info: string
-  warn: string
-  error: string
-
   keyword: string
   variables: string
   string: string
-
-  func: {
-    name: string
-    param: string
-  }
 
   const: string
   macros: string
@@ -195,11 +185,21 @@ export interface ColorScheme {
   numeric: string
   regexp: string
 
-  shadow: string
+  func?: {
+    name?: string
+    param?: string
+  }
 
-  brackets: {
-    1: string
-    2: string
-    3: string
+  success?: string
+  info?: string
+  warn?: string
+  error?: string
+
+  shadow?: string
+
+  brackets?: {
+    1?: string
+    2?: string
+    3?: string
   }
 }

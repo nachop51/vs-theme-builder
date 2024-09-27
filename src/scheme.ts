@@ -1,5 +1,6 @@
 import color from 'chroma-js'
 import type { Editor, Syntax, Terminal, UserInterface, ColorScheme, Git, Common, FullTheme } from './types.js'
+import { defaultColors } from './constants.js'
 
 interface createSchemeFromColorsProps {
   colors: ColorScheme
@@ -11,8 +12,8 @@ export default function createSchemeFromColors ({ colors, type = 'dark' }: creat
     keyword: color(colors.keyword),
 
     func: {
-      name: color(colors.func.name),
-      param: color(colors.func.param)
+      name: color(colors?.func?.name ?? defaultColors.func.name),
+      param: color(colors?.func?.param ?? colors.variables)
     },
 
     class: {
@@ -29,7 +30,7 @@ export default function createSchemeFromColors ({ colors, type = 'dark' }: creat
         class: color(colors.class),
         id: color(colors.regexp),
         pseudo: color(colors.punctuation),
-        properties: color(colors.func.name).brighten(0.75),
+        properties: color(colors?.func?.name ?? defaultColors.func.name).brighten(0.75),
         units: color(colors.numeric)
       },
       markup: {
@@ -43,14 +44,14 @@ export default function createSchemeFromColors ({ colors, type = 'dark' }: creat
     comment: color(colors.comment),
     string: color(colors.string),
     numeric: color(colors.numeric),
-    operator: color(colors.info),
+    operator: color(colors.info ?? defaultColors.info),
 
     variables: color(colors.variables),
     constant: color(colors.const),
     macros: color(colors.macros),
 
     regexp: color(colors.regexp),
-    special: color(colors.warn),
+    special: color(colors.warn ?? defaultColors.warn),
     misc: color(colors.accent)
   }
 
@@ -88,7 +89,7 @@ export default function createSchemeFromColors ({ colors, type = 'dark' }: creat
     },
     panel: {
       bg: color(colors.editor.bg),
-      shadow: color(colors.shadow)
+      shadow: color(colors?.shadow ?? defaultColors.shadow)
     }
   }
 
@@ -96,39 +97,41 @@ export default function createSchemeFromColors ({ colors, type = 'dark' }: creat
     primary: color(colors.primary),
     primaryContent: color(colors.primaryContent),
     accent: color(colors.accent),
-    info: color(colors.info),
-    warn: color(colors.warn),
-    success: color(colors.success),
-    error: color(colors.error),
-    brackets1: color(colors.brackets[1]),
-    brackets2: color(colors.brackets[2]),
-    brackets3: color(colors.brackets[3])
+
+    info: color(colors.info ?? defaultColors.info),
+    warn: color(colors.warn ?? defaultColors.warn),
+    success: color(colors.success ?? defaultColors.success),
+    error: color(colors.error ?? defaultColors.error),
+
+    brackets1: color(colors?.brackets?.[1] ?? defaultColors.brackets[1]),
+    brackets2: color(colors?.brackets?.[2] ?? defaultColors.brackets[2]),
+    brackets3: color(colors?.brackets?.[3] ?? defaultColors.brackets[3])
   }
 
   const git: Git = {
-    added: color(colors.success),
-    modified: color(colors.info).alpha(0.7),
-    deleted: color(colors.error).alpha(0.7),
+    added: color(colors?.success ?? defaultColors.success),
+    modified: color(colors.info ?? defaultColors.info).alpha(0.7),
+    deleted: color(colors.error ?? defaultColors.error).alpha(0.7),
     ignored: color(colors.ui.fg).alpha(0.5)
   }
 
   const terminal: Terminal = {
-    ansiBlack: color('#3f4451'),
-    ansiBrightBlack: color('#4f5666'),
-    ansiBlue: color('#4aa5f0'),
-    ansiBrightBlue: color('#4dc4ff'),
-    ansiCyan: color('#42b3c2'),
-    ansiBrightCyan: color('#4cd1e0'),
-    ansiGreen: color('#8cc265'),
-    ansiBrightGreen: color('#a5e075'),
-    ansiRed: color('#e05561'),
-    ansiBrightRed: color('#ff616e'),
-    ansiMagenta: color('#c162de'),
-    ansiBrightMagenta: color('#de73ff'),
-    ansiYellow: color('#f0c758'),
-    ansiBrightYellow: color('#ffec80'),
-    ansiWhite: color('#d7dae0'),
-    ansiBrightWhite: color('#e6e6e6'),
+    ansiBlack: color(defaultColors.ansiBlack),
+    ansiBrightBlack: color(defaultColors.ansiBrightBlack),
+    ansiBlue: color(defaultColors.ansiBlue),
+    ansiBrightBlue: color(defaultColors.ansiBrightBlue),
+    ansiCyan: color(defaultColors.ansiCyan),
+    ansiBrightCyan: color(defaultColors.ansiBrightCyan),
+    ansiGreen: color(defaultColors.ansiGreen),
+    ansiBrightGreen: color(defaultColors.ansiBrightGreen),
+    ansiRed: color(defaultColors.ansiRed),
+    ansiBrightRed: color(defaultColors.ansiBrightRed),
+    ansiMagenta: color(defaultColors.ansiMagenta),
+    ansiBrightMagenta: color(defaultColors.ansiBrightMagenta),
+    ansiYellow: color(defaultColors.ansiYellow),
+    ansiBrightYellow: color(defaultColors.ansiBrightYellow),
+    ansiWhite: color(defaultColors.ansiWhite),
+    ansiBrightWhite: color(defaultColors.ansiBrightWhite),
     background: color(colors.ui.bg),
     border: color(colors.border),
     foreground: color(colors.editor.fg).darken(0.3),

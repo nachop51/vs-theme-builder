@@ -51,12 +51,14 @@ const colors: ColorScheme = {
   }
 }
 
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 const syntax: Syntax = {
   keyword: color(colors.keyword),
 
   func: {
-    name: color(colors.func.name),
-    param: color(colors.func.param)
+    name: color(colors.func!.name!),
+    param: color(colors.func!.param!)
   },
 
   class: {
@@ -73,7 +75,7 @@ const syntax: Syntax = {
       class: color(colors.class),
       id: color(colors.regexp),
       pseudo: color(colors.punctuation),
-      properties: color(colors.func.name).brighten(0.75),
+      properties: color(colors.func!.name!).brighten(0.75),
       units: color(colors.numeric)
     },
     markup: {
@@ -86,14 +88,14 @@ const syntax: Syntax = {
   comment: color(colors.comment),
   string: color(colors.string),
   numeric: color(colors.numeric),
-  operator: color(colors.info),
+  operator: color(colors.info!),
 
   variables: color(colors.variables),
   constant: color(colors.const),
   macros: color(colors.macros),
 
   regexp: color(colors.regexp),
-  special: color(colors.warn),
+  special: color(colors.warn!),
   misc: color(colors.accent)
 }
 
@@ -131,7 +133,7 @@ const ui: UserInterface = {
   },
   panel: {
     bg: color(colors.editor.bg),
-    shadow: color(colors.shadow)
+    shadow: color(colors.shadow!)
   }
 }
 
@@ -139,19 +141,19 @@ const common: Common = {
   primary: color(colors.primary),
   primaryContent: color(colors.primaryContent),
   accent: color(colors.accent),
-  info: color(colors.info),
-  warn: color(colors.warn),
-  success: color(colors.success),
-  error: color(colors.error),
-  brackets1: color(colors.brackets[1]),
-  brackets2: color(colors.brackets[2]),
-  brackets3: color(colors.brackets[3])
+  info: color(colors.info!),
+  warn: color(colors.warn!),
+  success: color(colors.success!),
+  error: color(colors.error!),
+  brackets1: color(colors.brackets![1]!),
+  brackets2: color(colors.brackets![2]!),
+  brackets3: color(colors.brackets![3]!)
 }
 
 const git: Git = {
-  added: color(colors.success),
-  modified: color(colors.info).alpha(0.7),
-  deleted: color(colors.error).alpha(0.7),
+  added: color(colors.success!),
+  modified: color(colors.info!).alpha(0.7),
+  deleted: color(colors.error!).alpha(0.7),
   ignored: color(colors.ui.fg).alpha(0.5)
 }
 
@@ -188,7 +190,9 @@ const theme: FullTheme = {
   editor
 }
 
-// or just
+// you can use the package like this to create a theme if you want to be more specific with the colors
+
+// or just use
 
 // const theme = createSchemeFromColors(colors, 'dark')
 
