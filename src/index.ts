@@ -1,5 +1,11 @@
-import exampleTheme from './example/dark.js'
-import createSchemeFromColors from './scheme.js'
-import buildThemeFromScheme from './theme.js'
+import { exampleColors, exampleTheme } from './example/dark.js'
+import { createSchemeFromColors } from './scheme.js'
+import { buildThemeFromScheme, buildThemeFromColors } from './theme.js'
 
-export { exampleTheme, createSchemeFromColors, buildThemeFromScheme }
+export {
+  exampleColors,
+  exampleTheme,
+  createSchemeFromColors,
+  buildThemeFromScheme,
+  buildThemeFromColors
+}

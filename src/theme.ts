@@ -1,12 +1,17 @@
-import { type FullTheme } from './types.js'
+import { createSchemeFromColors } from './scheme.js'
+import { type ColorScheme, type FullTheme } from './types.js'
 
-interface createThemeOptions {
+interface BuildThemeFromSchemeOptions {
   name: string
   scheme: FullTheme
-  isBordered: boolean
+  isBordered?: boolean
 }
 
-export default function buildThemeFromScheme ({ name, scheme, isBordered }: createThemeOptions) {
+export function buildThemeFromScheme({
+  name,
+  scheme,
+  isBordered = true
+}: BuildThemeFromSchemeOptions) {
   return {
     name: `${name}${isBordered ? ' Bordered' : ''}`,
     type: scheme.type,
@@ -34,45 +39,70 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       descriptionForeground: scheme.ui.fg.hex(),
 
       // Editor
-      'editor.background': isBordered ? scheme.editor.bg.hex() : scheme.ui.bg.hex(),
+      'editor.background': isBordered
+        ? scheme.editor.bg.hex()
+        : scheme.ui.bg.hex(),
       'editor.foreground': scheme.editor.fg.hex(),
 
       // ------------------------------------
       'editor.selectionBackground': scheme.editor.selection.active.hex(),
-      'editor.inactiveSelectionBackground': scheme.editor.selection.inactive.hex(),
+      'editor.inactiveSelectionBackground':
+        scheme.editor.selection.inactive.hex(),
 
       // Word highlight (when the cursor is on a word, highlights all other occurrences of that word)
-      'editor.selectionHighlightBackground': scheme.editor.selection.inactive.hex(),
+      'editor.selectionHighlightBackground':
+        scheme.editor.selection.inactive.hex(),
       'editor.selectionHighlightBorder': scheme.editor.selection.inactive.hex(),
 
       'editor.wordHighlightBackground': scheme.ui.selection.active.hex(),
       'editor.wordHighlightBorder': scheme.ui.selection.active.hex(),
       'editor.wordHighlightStrongBackground': scheme.ui.selection.active.hex(), // This is the most important one, if it's a variable or a function, the definition will be highlighted this color, and the others will be highlighted with the color above
-      'editor.wordHighlightStrongBorder': scheme.ui.selection.active.brighten(1).alpha(1).hex(),
+      'editor.wordHighlightStrongBorder': scheme.ui.selection.active
+        .brighten(1)
+        .alpha(1)
+        .hex(),
 
-      'editorBracketMatch.background': scheme.editor.gutter.normal.alpha(0.3).hex(),
-      'editorBracketMatch.border': scheme.editor.gutter.active.alpha(0.5).hex(),
+      'editorBracketMatch.background': scheme.editor.lineNumber.normal
+        .alpha(0.3)
+        .hex(),
+      'editorBracketMatch.border': scheme.editor.lineNumber.active
+        .alpha(0.5)
+        .hex(),
 
+      // cursor
       'editorCursor.foreground': scheme.editor.cursor.hex(),
+
+      // indent guide
       'editorIndentGuide.background1': scheme.editor.indentGuide.normal.hex(),
-      'editorIndentGuide.activeBackground1': scheme.editor.indentGuide.active.hex(),
-      'editorLineNumber.foreground': scheme.editor.gutter.normal.hex(),
+      'editorIndentGuide.activeBackground1':
+        scheme.editor.indentGuide.active.hex(),
+
+      // line numbers
+      'editorLineNumber.foreground': scheme.editor.lineNumber.normal.hex(),
       'editorRuler.foreground': scheme.editor.indentGuide.normal.hex(),
-      'editorWhitespace.foreground': scheme.editor.gutter.normal.hex(),
+      'editorWhitespace.foreground': scheme.editor.lineNumber.normal.hex(),
+
+      // errors and warnings
       'editorWarning.foreground': scheme.common.warn.hex(),
       'editorError.foreground': scheme.common.error.hex(),
+
       'editorMarkerNavigation.background': scheme.ui.panel.bg.hex(),
 
       // Editor widget
-      'editorHoverWidget.background': isBordered ? scheme.ui.bg.hex() : scheme.ui.panel.bg.hex(),
+      'editorHoverWidget.background': isBordered
+        ? scheme.ui.bg.hex()
+        : scheme.ui.panel.bg.hex(),
       'editorHoverWidget.border': scheme.ui.border.hex(),
 
       'editorSuggestWidget.background': scheme.ui.panel.bg.hex(),
       'editorSuggestWidget.border': scheme.ui.border.hex(),
-      'editorSuggestWidget.highlightForeground': scheme.common.accent.hex(),
-      'editorSuggestWidget.selectedBackground': scheme.ui.selection.active.hex(),
+      'editorSuggestWidget.highlightForeground': scheme.common.primary.hex(),
+      'editorSuggestWidget.selectedBackground':
+        scheme.ui.selection.active.hex(),
 
-      'editorWidget.background': isBordered ? scheme.editor.bg.hex() : scheme.ui.panel.bg.hex(),
+      'editorWidget.background': isBordered
+        ? scheme.editor.bg.hex()
+        : scheme.ui.panel.bg.hex(),
       'editorWidget.border': scheme.ui.border.hex(),
 
       // Editor overview ruler
@@ -81,20 +111,31 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       'editorOverviewRuler.addedForeground': scheme.git.added.hex(),
       'editorOverviewRuler.deletedForeground': scheme.git.deleted.hex(),
       'editorOverviewRuler.errorForeground': scheme.common.error.hex(),
-      'editorOverviewRuler.warningForeground': scheme.common.accent.hex(),
-      'editorOverviewRuler.bracketMatchForeground': scheme.editor.gutter.normal.alpha(0.7).hex(),
-      'editorOverviewRuler.wordHighlightForeground': scheme.git.modified.alpha(0.4).hex(),
-      'editorOverviewRuler.wordHighlightStrongForeground': scheme.git.added.alpha(0.4).hex(),
-      'editorOverviewRuler.findMatchForeground': scheme.editor.findMatch.active.alpha(0.5).hex(),
+      'editorOverviewRuler.warningForeground': scheme.common.warn.hex(),
+      'editorOverviewRuler.bracketMatchForeground':
+        scheme.editor.lineNumber.normal.alpha(0.7).hex(),
+      'editorOverviewRuler.wordHighlightForeground': scheme.git.modified
+        .alpha(0.4)
+        .hex(),
+      'editorOverviewRuler.wordHighlightStrongForeground': scheme.git.added
+        .alpha(0.4)
+        .hex(),
+      'editorOverviewRuler.findMatchForeground': scheme.editor.findMatch.active
+        .alpha(0.5)
+        .hex(),
       // -----------------------------------
 
       // Tabs options & editor groups
       'editorGroup.border': scheme.ui.border.hex(),
       'editorGroupHeader.noTabsBackground': scheme.ui.bg.hex(),
       'editorGroupHeader.tabsBackground': scheme.ui.bg.hex(),
-      'editorGroupHeader.tabsBorder': isBordered ? scheme.ui.border.hex() : scheme.ui.bg.hex(),
+      'editorGroupHeader.tabsBorder': isBordered
+        ? scheme.ui.border.hex()
+        : scheme.ui.bg.hex(),
 
-      'tab.activeBackground': isBordered ? scheme.editor.bg.hex() : scheme.ui.bg.hex(),
+      'tab.activeBackground': isBordered
+        ? scheme.editor.bg.hex()
+        : scheme.ui.bg.hex(),
       'tab.activeForeground': scheme.editor.fg.hex(),
       'tab.inactiveBackground': scheme.ui.bg.hex(),
       'tab.inactiveForeground': scheme.ui.fg.hex(),
@@ -102,9 +143,13 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       'tab.hoverBackground': scheme.ui.selection.hover.hex(),
 
       'tab.border': isBordered ? scheme.ui.border.hex() : scheme.ui.bg.hex(),
-      'tab.activeBorder': isBordered ? scheme.ui.border.hex() : scheme.ui.borderActive.hex(),
-      'tab.activeBorderTop': isBordered ? scheme.ui.borderActive.hex() : scheme.ui.bg.hex(),
-      'tab.unfocusedActiveBorder': scheme.common.primary.alpha(0.4).hex(),
+      'tab.activeBorder': isBordered
+        ? scheme.ui.border.hex()
+        : scheme.ui.borderActive.hex(),
+      'tab.activeBorderTop': isBordered
+        ? scheme.ui.borderActive.hex()
+        : scheme.ui.bg.hex(),
+      'tab.unfocusedActiveBorder': scheme.ui.borderActive.alpha(0.5).hex(),
       'tab.unfocusedActiveBorderTop': scheme.ui.bg.hex(),
 
       'tab.unfocusedHoverBackground': scheme.ui.selection.hover.hex(),
@@ -114,10 +159,15 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       // Editor search
       'editor.findMatchBackground': scheme.editor.findMatch.active.hex(),
       'editor.findMatchBorder': scheme.editor.findMatch.active.hex(),
-      'editor.findMatchHighlightBackground': scheme.editor.findMatch.inactive.hex(),
+      'editor.findMatchHighlightBackground':
+        scheme.editor.findMatch.inactive.hex(),
       'editor.findMatchHighlightBorder': scheme.editor.findMatch.inactive.hex(),
-      'editor.findRangeHighlightBackground': scheme.editor.findMatch.inactive.alpha(0.25).hex(),
-      'editor.rangeHighlightBackground': scheme.editor.findMatch.active.alpha(0.2).hex(),
+      'editor.findRangeHighlightBackground': scheme.editor.findMatch.inactive
+        .alpha(0.25)
+        .hex(),
+      'editor.rangeHighlightBackground': scheme.editor.findMatch.active
+        .alpha(0.2)
+        .hex(),
       // --------------------
       'editorInlayHint.background': scheme.ui.border.hex(),
       'editorInlayHint.foreground': scheme.ui.fg.hex(),
@@ -139,7 +189,7 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       'list.focusForeground': scheme.editor.fg.hex(),
       'list.focusOutline': scheme.ui.selection.active.hex(),
 
-      'list.highlightForeground': scheme.common.accent.brighten(2).hex(),
+      'list.highlightForeground': scheme.common.primary.brighten(2).hex(),
       'list.deemphasizedForeground': scheme.common.error.hex(),
 
       'list.hoverBackground': scheme.ui.selection.hover.hex(),
@@ -156,7 +206,9 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       'listFilterWidget.background': scheme.ui.panel.bg.hex(),
       'listFilterWidget.outline': scheme.common.accent.hex(),
       'listFilterWidget.noMatchesOutline': scheme.common.error.hex(),
-      'list.filterMatchBackground': scheme.editor.findMatch.inactive.darken(0.3).hex(),
+      'list.filterMatchBackground': scheme.editor.findMatch.inactive
+        .darken(0.3)
+        .hex(),
       'list.filterMatchBorder': scheme.editor.findMatch.inactive.hex(),
       // Peek view (the thing that shows up when you peek into a file)
       'peekView.border': scheme.ui.selection.active.hex(),
@@ -165,14 +217,22 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       'peekViewTitleDescription.foreground': scheme.ui.fg.hex(),
       'peekViewTitleLabel.foreground': scheme.editor.fg.hex(),
 
-      'peekViewEditor.background': isBordered ? scheme.ui.bg.hex() : scheme.ui.panel.bg.hex(),
-      'peekViewEditor.matchHighlightBackground': scheme.editor.findMatch.inactive.hex(),
-      'peekViewEditor.matchHighlightBorder': scheme.editor.findMatch.inactive.darken(0.3).hex(),
+      'peekViewEditor.background': isBordered
+        ? scheme.ui.bg.hex()
+        : scheme.ui.panel.bg.hex(),
+      'peekViewEditor.matchHighlightBackground':
+        scheme.editor.findMatch.inactive.hex(),
+      'peekViewEditor.matchHighlightBorder': scheme.editor.findMatch.inactive
+        .darken(0.3)
+        .hex(),
 
-      'peekViewResult.background': isBordered ? scheme.ui.bg.hex() : scheme.ui.bg.hex(),
+      'peekViewResult.background': isBordered
+        ? scheme.ui.bg.hex()
+        : scheme.ui.bg.hex(),
       'peekViewResult.fileForeground': scheme.editor.fg.hex(),
       'peekViewResult.lineForeground': scheme.ui.fg.hex(),
-      'peekViewResult.matchHighlightBackground': scheme.editor.findMatch.inactive.hex(),
+      'peekViewResult.matchHighlightBackground':
+        scheme.editor.findMatch.inactive.hex(),
 
       'peekViewResult.selectionBackground': scheme.ui.selection.active.hex(),
       'peekViewResult.selectionForeground': scheme.editor.fg.brighten(10).hex(),
@@ -190,28 +250,30 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       'menubar.selectionForeground': scheme.editor.fg.hex(),
 
       // Button
-      'button.background': scheme.common.accent.hex(),
+      'button.background': scheme.common.primary.hex(),
       'button.foreground': scheme.common.primaryContent.hex(),
-      'button.hoverBackground': scheme.common.accent.darken(0.2).hex(),
+      'button.hoverBackground': scheme.common.primary.darken(0.2).hex(),
       'button.secondaryBackground': scheme.ui.fg.alpha(0.2).hex(),
       'button.secondaryForeground': scheme.editor.fg.hex(),
       'button.secondaryHoverBackground': scheme.ui.fg.alpha(0.5).hex(),
 
       // Text colors
       'textBlockQuote.background': scheme.ui.panel.bg.hex(),
-      'textLink.foreground': scheme.common.primary.hex(),
-      'textLink.activeForeground': scheme.common.primary.brighten(0.5).hex(),
+      'textLink.foreground': scheme.common.accent.hex(),
+      'textLink.activeForeground': scheme.common.accent.brighten(0.5).hex(),
       'textPreformat.background': scheme.editor.bg.brighten(0.8).hex(),
       'textPreformat.foreground': scheme.editor.fg.hex(),
 
       // Badge
-      'badge.background': scheme.common.accent.alpha(0.2).hex(),
-      'badge.foreground': scheme.common.primary.hex(),
+      'badge.background': scheme.common.primary.alpha(0.2).hex(),
+      'badge.foreground': scheme.common.primary.brighten(0.8).hex(),
 
       // Extensions
       'extensionButton.prominentForeground': scheme.editor.fg.hex(),
-      'extensionButton.prominentBackground': scheme.common.accent.hex(),
-      'extensionButton.prominentHoverBackground': scheme.common.accent.darken(0.1).hex(),
+      'extensionButton.prominentBackground': scheme.common.primary.hex(),
+      'extensionButton.prominentHoverBackground': scheme.common.primary
+        .darken(0.2)
+        .hex(),
 
       // Picker
       'pickerGroup.border': scheme.ui.border.hex(),
@@ -238,17 +300,21 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       'keybindingLabel.bottomBorder': scheme.editor.fg.alpha(0.1).hex(),
 
       // Settings
-      'settings.focusedRowBackground': scheme.common.accent.alpha(0.2).hex(),
+      'settings.focusedRowBackground': scheme.common.primary.alpha(0.2).hex(),
       'settings.headerForeground': scheme.editor.fg.hex(),
       'settings.checkboxBackground': scheme.ui.bg.darken(0.1).hex(),
-      'settings.checkboxBorder': scheme.common.accent.alpha(0.5).hex(),
+      'settings.checkboxBorder': scheme.ui.borderActive.alpha(0.5).hex(),
       'settings.checkboxForeground': scheme.editor.fg.alpha(0.7).hex(),
 
       // Scrollbar
-      'scrollbar.shadow': isBordered ? scheme.ui.border.alpha(0.4).hex() : scheme.ui.border.alpha(0).hex(),
-      'scrollbarSlider.background': scheme.common.accent.alpha(0.3).hex(),
-      'scrollbarSlider.hoverBackground': scheme.common.accent.alpha(0.4).hex(),
-      'scrollbarSlider.activeBackground': scheme.common.accent.alpha(0.6).hex(),
+      'scrollbar.shadow': isBordered
+        ? scheme.ui.border.alpha(0.4).hex()
+        : scheme.ui.border.alpha(0).hex(),
+      'scrollbarSlider.background': scheme.common.primary.alpha(0.3).hex(),
+      'scrollbarSlider.hoverBackground': scheme.common.primary.alpha(0.4).hex(),
+      'scrollbarSlider.activeBackground': scheme.common.primary
+        .alpha(0.6)
+        .hex(),
 
       // Input
       'input.background': scheme.editor.bg.hex(),
@@ -272,23 +338,35 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       // Side bar
       'sideBar.background': scheme.ui.bg.hex(),
       'sideBar.foreground': scheme.ui.fg.hex(),
-      'sideBar.border': isBordered ? scheme.ui.border.hex() : scheme.ui.bg.hex(),
+      'sideBar.border': isBordered
+        ? scheme.ui.border.hex()
+        : scheme.ui.bg.hex(),
       'sideBarSectionHeader.background': scheme.ui.bg.hex(),
       'sideBarSectionHeader.foreground': scheme.ui.fg.brighten(1).hex(),
       'sideBarTitle.foreground': scheme.ui.fg.hex(),
-      'sideBarSectionHeader.border': isBordered ? scheme.ui.border.hex() : scheme.ui.bg.hex(),
+      'sideBarSectionHeader.border': isBordered
+        ? scheme.ui.border.hex()
+        : scheme.ui.bg.hex(),
 
       // Status bar
       'statusBar.background': scheme.ui.bg.hex(),
       'statusBar.foreground': scheme.ui.fg.hex(),
-      'statusBar.border': isBordered ? scheme.ui.border.hex() : scheme.ui.bg.hex(),
+      'statusBar.border': isBordered
+        ? scheme.ui.border.hex()
+        : scheme.ui.bg.hex(),
 
       'statusBar.debuggingBackground': scheme.common.warn.hex(),
       'statusBar.debuggingBorder': scheme.ui.bg.hex(),
       'statusBar.debuggingForeground': scheme.ui.fg.darken(1).hex(),
 
+      // left bottom corner button
       'statusBarItem.remoteBackground': scheme.common.primary.hex(),
       'statusBarItem.remoteForeground': scheme.common.primaryContent.hex(),
+      'statusBarItem.remoteHoverBackground': scheme.common.primary
+        .darken(0.3)
+        .hex(),
+      'statusBarItem.remoteHoverForeground': scheme.common.primaryContent.hex(),
+
       'statusBar.noFolderBackground': scheme.ui.panel.bg.hex(),
 
       'statusBarItem.activeBackground': scheme.ui.fg.alpha(0.2).hex(),
@@ -297,11 +375,15 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       'statusBarItem.prominentHoverBackground': scheme.ui.panel.shadow.hex(),
 
       // Activity bar
-      'activityBar.background': isBordered ? scheme.editor.bg.hex() : scheme.ui.bg.hex(),
+      'activityBar.background': isBordered
+        ? scheme.editor.bg.hex()
+        : scheme.ui.bg.hex(),
       'activityBar.foreground': scheme.editor.fg.hex(),
       'activityBar.inactiveForeground': scheme.ui.fg.alpha(0.6).hex(),
-      'activityBar.activeBorder': scheme.common.primary.hex(),
-      'activityBar.border': isBordered ? scheme.ui.border.hex() : scheme.ui.bg.hex(),
+      'activityBar.activeBorder': scheme.ui.borderActive.hex(),
+      'activityBar.border': isBordered
+        ? scheme.ui.border.hex()
+        : scheme.ui.bg.hex(),
       'activityBarBadge.background': scheme.common.primary.hex(),
       'activityBarBadge.foreground': scheme.common.primaryContent.hex(),
 
@@ -315,15 +397,19 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       'debugExceptionWidget.border': scheme.ui.border.hex(),
       'debugExceptionWidget.background': scheme.ui.panel.bg.hex(),
       'debugIcon.breakpointForeground': scheme.syntax.operator.hex(),
-      'debugIcon.breakpointDisabledForeground': scheme.syntax.operator.alpha(0.5).hex(),
-      'debugConsoleInputIcon.foreground': scheme.common.accent.hex(),
+      'debugIcon.breakpointDisabledForeground': scheme.syntax.operator
+        .alpha(0.5)
+        .hex(),
+      'debugConsoleInputIcon.foreground': scheme.common.primary.hex(),
 
       // Title bar
       'titleBar.activeBackground': scheme.ui.bg.hex(),
       'titleBar.activeForeground': scheme.editor.fg.hex(),
       'titleBar.inactiveBackground': scheme.ui.bg.hex(),
       'titleBar.inactiveForeground': scheme.ui.fg.hex(),
-      'titleBar.border': isBordered ? scheme.ui.border.hex() : scheme.ui.bg.hex(),
+      'titleBar.border': isBordered
+        ? scheme.ui.border.hex()
+        : scheme.ui.bg.hex(),
 
       // Panel options (the bar that contains Problems, Output, Terminal, etc)
       'panel.background': scheme.ui.bg.hex(),
@@ -337,14 +423,22 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       'gitDecoration.deletedResourceForeground': scheme.git.deleted.hex(),
       'gitDecoration.untrackedResourceForeground': scheme.git.added.hex(),
       'gitDecoration.ignoredResourceForeground': scheme.ui.fg.alpha(0.5).hex(),
-      'gitDecoration.conflictingResourceForeground': scheme.common.error.alpha(0.7).hex(),
-      'gitDecoration.submoduleResourceForeground': scheme.syntax.constant.alpha(0.7).hex(),
+      'gitDecoration.conflictingResourceForeground': scheme.common.error
+        .alpha(0.7)
+        .hex(),
+      'gitDecoration.submoduleResourceForeground': scheme.syntax.constant
+        .alpha(0.7)
+        .hex(),
 
       // Minimap options
-      'minimap.background': isBordered ? scheme.editor.bg.hex() : scheme.ui.bg.hex(),
-      'minimap.selectionHighlight': scheme.common.primary.alpha(0.7).hex(),
-      'minimap.selectionOccurrenceHighlight': scheme.common.primary.alpha(0.95).hex(),
-      'minimap.findMatchHighlight': scheme.common.primary.alpha(0.8).hex(),
+      'minimap.background': isBordered
+        ? scheme.editor.bg.hex()
+        : scheme.ui.bg.hex(),
+      'minimap.selectionHighlight': scheme.common.accent.alpha(0.7).hex(),
+      'minimap.selectionOccurrenceHighlight': scheme.common.accent
+        .alpha(0.95)
+        .hex(),
+      'minimap.findMatchHighlight': scheme.common.accent.alpha(0.8).hex(),
 
       'minimap.warningHighlight': scheme.common.warn.hex(),
       'minimap.errorHighlight': scheme.common.error.hex(),
@@ -514,7 +608,10 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       },
       {
         name: 'Import packages color (Java, CS)',
-        scope: ['storage.modifier.import.java', 'entity.name.type.namespace.cs'],
+        scope: [
+          'storage.modifier.import.java',
+          'entity.name.type.namespace.cs'
+        ],
         settings: {
           foreground: scheme.syntax.class.name.hex()
         }
@@ -523,7 +620,7 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
         name: 'diff.header',
         scope: ['meta.diff', 'meta.diff.header'],
         settings: {
-          foreground: scheme.common.accent.hex()
+          foreground: scheme.common.primary.hex()
         }
       },
       {
@@ -597,12 +694,11 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       },
       {
         name: 'Tag',
-        scope: [
-          'meta.tag.sgml',
-          'markup.deleted.git_gutter'
-        ],
+        scope: ['meta.tag.sgml', 'markup.deleted.git_gutter'],
         settings: {
-          foreground: scheme.syntax.langs?.html?.tag?.hex() ?? scheme.syntax.variables.hex()
+          foreground:
+            scheme.syntax.langs?.html?.tag?.hex() ??
+            scheme.syntax.variables.hex()
         }
       },
       {
@@ -734,12 +830,11 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       // HTML Related
       {
         name: 'HTML Tag name',
-        scope: [
-          'entity.name.tag',
-          'text.html.derivative'
-        ],
+        scope: ['entity.name.tag', 'text.html.derivative'],
         settings: {
-          foreground: scheme.syntax.langs?.html?.tagName?.hex() ?? scheme.syntax.variables.hex()
+          foreground:
+            scheme.syntax.langs?.html?.tagName?.hex() ??
+            scheme.syntax.variables.hex()
         }
       },
       {
@@ -751,7 +846,9 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
           'punctuation.definition.tag.end.html'
         ],
         settings: {
-          foreground: scheme.syntax?.langs?.html?.tag?.hex() ?? scheme.syntax.punctuation.hex()
+          foreground:
+            scheme.syntax?.langs?.html?.tag?.hex() ??
+            scheme.syntax.punctuation.hex()
         }
       },
       {
@@ -778,7 +875,9 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
         name: 'HTML & JSX Properties/Attributes',
         scope: ['entity.other.attribute-name'],
         settings: {
-          foreground: scheme.syntax.langs?.html?.attributes?.hex() ?? scheme.syntax.macros.hex(),
+          foreground:
+            scheme.syntax.langs?.html?.attributes?.hex() ??
+            scheme.syntax.macros.hex(),
           fontStyle: 'italic'
         }
       },
@@ -793,28 +892,39 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
           'support.type.property-name.css'
         ],
         settings: {
-          foreground: scheme.syntax.langs?.css?.properties?.hex() ?? scheme.syntax.func.name.brighten(0.75).hex()
+          foreground:
+            scheme.syntax.langs?.css?.properties?.hex() ??
+            scheme.syntax.func.name.brighten(0.75).hex()
         }
       },
       {
         name: 'CSS Classes',
         scope: ['entity.other.attribute-name.class'],
         settings: {
-          foreground: scheme.syntax.langs?.css?.class?.hex() ?? scheme.syntax.class.name.hex()
+          foreground:
+            scheme.syntax.langs?.css?.class?.hex() ??
+            scheme.syntax.class.name.hex()
         }
       },
       {
         name: 'CSS ID Selector',
         scope: 'entity.other.attribute-name.id',
         settings: {
-          foreground: scheme.syntax.langs?.css?.id?.hex() ?? scheme.syntax.func.name.brighten(0.5).hex()
+          foreground:
+            scheme.syntax.langs?.css?.id?.hex() ??
+            scheme.syntax.func.name.brighten(0.5).hex()
         }
       },
       {
         name: 'Pseudo CSS',
-        scope: ['entity.other.attribute-name.pseudo-element', 'entity.other.attribute-name.pseudo-class'],
+        scope: [
+          'entity.other.attribute-name.pseudo-element',
+          'entity.other.attribute-name.pseudo-class'
+        ],
         settings: {
-          foreground: scheme.syntax.langs?.css?.pseudo?.hex() ?? scheme.syntax.constant.hex(),
+          foreground:
+            scheme.syntax.langs?.css?.pseudo?.hex() ??
+            scheme.syntax.constant.hex(),
           fontStyle: 'italic'
         }
       },
@@ -834,7 +944,9 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
         name: 'CSS Units',
         scope: ['keyword.other.unit.css', 'constant.numeric.css'],
         settings: {
-          foreground: scheme.syntax.langs?.css?.units?.hex() ?? scheme.syntax.numeric.hex()
+          foreground:
+            scheme.syntax.langs?.css?.units?.hex() ??
+            scheme.syntax.numeric.hex()
         }
       },
       {
@@ -915,7 +1027,11 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
         ],
         settings: {
           fontStyle: 'bold',
-          foreground: (scheme.syntax.langs?.markup?.heading ?? scheme.syntax.variables).darken(2).hex()
+          foreground: (
+            scheme.syntax.langs?.markup?.heading ?? scheme.syntax.variables
+          )
+            .darken(2)
+            .hex()
         }
       },
       {
@@ -923,14 +1039,18 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
         scope: ['markup.heading.markdown entity.name'],
         settings: {
           fontStyle: 'bold',
-          foreground: scheme.syntax.langs?.markup?.heading?.hex() ?? scheme.syntax.variables.hex()
+          foreground:
+            scheme.syntax.langs?.markup?.heading?.hex() ??
+            scheme.syntax.variables.hex()
         }
       },
       {
         name: 'Markup - List punctuation',
         scope: ['punctuation.definition.list.begin.markdown'],
         settings: {
-          foreground: scheme.syntax.langs?.markup?.punctuation?.hex() ?? scheme.syntax.punctuation.hex()
+          foreground:
+            scheme.syntax.langs?.markup?.punctuation?.hex() ??
+            scheme.syntax.punctuation.hex()
         }
       },
       {
@@ -974,7 +1094,10 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       },
       {
         name: 'Markdown - Blockquote',
-        scope: ['markup.quote punctuation.definition.blockquote.markdown', 'markup.quote'],
+        scope: [
+          'markup.quote punctuation.definition.blockquote.markdown',
+          'markup.quote'
+        ],
         settings: {
           foreground: scheme.syntax.punctuation.hex()
         }
@@ -998,7 +1121,9 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
         scope: ['meta.separator'],
         settings: {
           fontStyle: 'bold',
-          foreground: scheme.syntax.langs?.markup?.punctuation?.hex() ?? scheme.syntax.punctuation.hex()
+          foreground:
+            scheme.syntax.langs?.markup?.punctuation?.hex() ??
+            scheme.syntax.punctuation.hex()
         }
       },
       {
@@ -1032,4 +1157,24 @@ export default function buildThemeFromScheme ({ name, scheme, isBordered }: crea
       // --------------------
     ]
   }
+}
+
+interface BuildThemeFromColorsOptions {
+  name: string
+  colors: ColorScheme
+  isBordered?: boolean
+}
+
+export function buildThemeFromColors({
+  name,
+  colors,
+  isBordered = false
+}: BuildThemeFromColorsOptions) {
+  const scheme = createSchemeFromColors({ colors })
+
+  return buildThemeFromScheme({
+    name,
+    scheme,
+    isBordered
+  })
 }

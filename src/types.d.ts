@@ -1,21 +1,41 @@
 import type { Color } from 'chroma-js'
 
-interface createSchemeFromColorsProps {
+interface CreateSchemeFromColorsOptions {
   colors: ColorScheme
   type?: 'dark' | 'light'
 }
 
-export declare function createSchemeFromColors ({ colors, type }: createSchemeFromColorsProps): FullTheme
+export declare function createSchemeFromColors({
+  colors,
+  type
+}: CreateSchemeFromColorsOptions): FullTheme
 
-interface createThemeOptions {
+interface BuildThemeFromSchemeOptions {
   name: string
   scheme: FullTheme
-  isBordered: boolean
+  isBordered?: boolean
 }
 
-export declare function buildThemeFromScheme ({ name, scheme, isBordered }: createThemeOptions): object
+export declare function buildThemeFromScheme({
+  name,
+  scheme,
+  isBordered
+}: BuildThemeFromSchemeOptions): object
+
+interface BuildThemeFromColorsOptions {
+  name: string
+  colors: ColorScheme
+  isBordered?: boolean
+}
+
+export declare function buildThemeFromColors({
+  name,
+  colors,
+  isBordered
+}: BuildThemeFromColorsOptions): object
 
 export declare const exampleTheme: FullTheme
+export declare const exampleColors: ColorScheme
 
 export interface Syntax {
   keyword: Color
@@ -74,7 +94,7 @@ export interface Editor {
     active: Color
     inactive: Color
   }
-  gutter: {
+  lineNumber: {
     active: Color
     normal: Color
   }
@@ -157,49 +177,50 @@ export interface ColorScheme {
   editor: {
     bg: string
     fg: string
+    cursor: string
+    lineNumber?: string
   }
 
   ui: {
     bg: string
     fg: string
+    border: string
+    shadow?: string
   }
-
-  cursor: string
-  gutter: string
-
-  border: string
 
   primary: string
   primaryContent: string
   accent: string
 
-  keyword: string
-  variables: string
-  string: string
-
-  const: string
-  macros: string
-  punctuation: string
-  comment: string
-  class: string
-  numeric: string
-  regexp: string
-
-  func?: {
-    name?: string
-    param?: string
-  }
-
   success?: string
   info?: string
   warn?: string
   error?: string
+  misc?: string
 
-  shadow?: string
+  syntax: {
+    keyword: string
+    variables: string
+    string: string
 
-  brackets?: {
-    1?: string
-    2?: string
-    3?: string
+    punctuation: string
+    numeric: string
+    class: string
+
+    const?: string
+    comment?: string
+    regexp?: string
+    macros?: string
+
+    func?: {
+      name?: string
+      param?: string
+    }
+
+    brackets?: {
+      1?: string
+      2?: string
+      3?: string
+    }
   }
 }

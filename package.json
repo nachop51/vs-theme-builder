@@ -1,6 +1,6 @@
 {
   "name": "vs-theme-builder",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "",
   "type": "module",
   "main": "dist/index.js",
@@ -20,8 +20,9 @@
   "scripts": {
     "lint": "eslint . --ext .ts --fix",
     "build": "tsc",
-    "prepublish": "npm run lint && npm run build",
-    "dev": "tsx --watch src/build.ts"
+    "prepublish": "npm run lint && npm test && npm run build",
+    "dev": "tsx --watch src/build.ts",
+    "test": "node --test --import tsx --test-reporter spec ./src/**/*.test.ts"
   },
   "keywords": [
     "vscode",
@@ -31,9 +32,8 @@
     "color"
   ],
   "author": "Ignacio Peralta",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "typescript": "^5.4.3",
     "chroma-js": "^2.4.2"
   },
   "devDependencies": {
@@ -47,7 +47,8 @@
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
-    "tsx": "^4.11.0"
+    "tsx": "^4.11.0",
+    "typescript": "^5.4.3"
   },
   "eslintConfig": {
     "parserOptions": {

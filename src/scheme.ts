@@ -1,95 +1,118 @@
 import color from 'chroma-js'
-import type { Editor, Syntax, Terminal, UserInterface, ColorScheme, Git, Common, FullTheme } from './types.js'
+import type {
+  Editor,
+  Syntax,
+  Terminal,
+  UserInterface,
+  ColorScheme,
+  Git,
+  Common,
+  FullTheme
+} from './types.js'
 import { defaultColors } from './constants.js'
 
-interface createSchemeFromColorsProps {
+interface CreateSchemeFromColorsOptions {
   colors: ColorScheme
   type?: 'dark' | 'light'
 }
 
-export default function createSchemeFromColors ({ colors, type = 'dark' }: createSchemeFromColorsProps): FullTheme {
+export function createSchemeFromColors({
+  colors,
+  type = 'dark'
+}: CreateSchemeFromColorsOptions): FullTheme {
   const syntax: Syntax = {
-    keyword: color(colors.keyword),
+    keyword: color(colors.syntax.keyword),
 
     func: {
-      name: color(colors?.func?.name ?? defaultColors.func.name),
-      param: color(colors?.func?.param ?? colors.variables)
+      name: color(colors.syntax?.func?.name ?? defaultColors.func.name),
+      param: color(colors.syntax?.func?.param ?? colors.syntax.variables)
     },
 
     class: {
-      name: color(colors.class)
+      name: color(colors.syntax.class)
     },
 
     langs: {
       html: {
-        tag: color(colors.punctuation),
-        tagName: color(colors.variables),
-        attributes: color(colors.macros).luminance(0.35).brighten(0.3)
+        tag: color(colors.syntax.punctuation),
+        tagName: color(colors.misc ?? colors.syntax.variables),
+        attributes: color(
+          colors.syntax.macros ?? colors.syntax.const ?? colors.syntax.variables
+        )
+          .luminance(0.35)
+          .brighten(0.3)
       },
       css: {
-        class: color(colors.class),
-        id: color(colors.regexp),
-        pseudo: color(colors.punctuation),
-        properties: color(colors?.func?.name ?? defaultColors.func.name).brighten(0.75),
-        units: color(colors.numeric)
+        class: color(colors.syntax.class),
+        id: color(colors.syntax.regexp ?? colors.syntax.string),
+        pseudo: color(colors.syntax.punctuation),
+        properties: color(
+          colors.syntax?.func?.name ?? defaultColors.func.name
+        ).brighten(0.75),
+        units: color(colors.syntax.numeric)
       },
       markup: {
-        heading: color(colors.primary),
-        punctuation: color(colors.macros)
+        heading: color(colors.syntax.variables),
+        punctuation: color(
+          colors.syntax.macros ?? colors.syntax.const ?? colors.syntax.variables
+        )
       }
-
     },
 
-    punctuation: color(colors.punctuation),
-    comment: color(colors.comment),
-    string: color(colors.string),
-    numeric: color(colors.numeric),
+    punctuation: color(colors.syntax.punctuation),
+    comment: color(colors.syntax.comment ?? defaultColors.comment),
+    string: color(colors.syntax.string),
+    numeric: color(colors.syntax.numeric),
     operator: color(colors.info ?? defaultColors.info),
 
-    variables: color(colors.variables),
-    constant: color(colors.const),
-    macros: color(colors.macros),
+    variables: color(colors.syntax.variables),
+    constant: color(colors.syntax.const ?? colors.syntax.variables),
+    macros: color(
+      colors.syntax.macros ?? colors.syntax.const ?? colors.syntax.variables
+    ),
 
-    regexp: color(colors.regexp),
+    regexp: color(colors.syntax.regexp ?? colors.syntax.string),
     special: color(colors.warn ?? defaultColors.warn),
-    misc: color(colors.accent)
+    misc: color(colors.misc ?? colors.accent)
   }
 
   const editor: Editor = {
     bg: color(colors.editor.bg),
     fg: color(colors.editor.fg),
-    cursor: color(colors.cursor),
+    cursor: color(colors.editor.cursor),
     selection: {
-      active: color(colors.accent).alpha(0.25),
-      inactive: color(colors.accent).alpha(0.15)
+      active: color(colors.primary).alpha(0.25),
+      inactive: color(colors.primary).alpha(0.15)
     },
     findMatch: {
-      active: color(colors.accent).brighten(0.5).alpha(0.5),
-      inactive: color(colors.accent).alpha(0.25)
+      active: color(colors.primary).brighten(0.45).alpha(0.45),
+      inactive: color(colors.primary).alpha(0.25)
     },
-    gutter: {
-      active: color(colors.gutter),
-      normal: color(colors.gutter).alpha(0.8)
+    lineNumber: {
+      active: color(colors.editor.lineNumber ?? defaultColors.lineNumber),
+      normal: color(colors.editor.lineNumber ?? defaultColors.lineNumber).alpha(
+        0.4
+      )
     },
     indentGuide: {
-      active: color(colors.primary).alpha(0.6),
-      normal: color(colors.primary).alpha(0.1)
+      active: color(colors.accent).alpha(0.6),
+      normal: color(colors.accent).alpha(0.1)
     }
   }
 
   const ui: UserInterface = {
     fg: color(colors.ui.fg),
     bg: color(colors.ui.bg),
-    border: color(colors.border),
-    borderActive: color(colors.primary),
+    border: color(colors.ui.border),
+    borderActive: color(colors.accent),
     selection: {
-      active: color(colors.accent).alpha(0.4),
-      hover: color(colors.accent).alpha(0.1),
-      normal: color(colors.accent).alpha(0.3)
+      active: color(colors.primary).alpha(0.4),
+      hover: color(colors.primary).alpha(0.1),
+      normal: color(colors.primary).alpha(0.3)
     },
     panel: {
       bg: color(colors.editor.bg),
-      shadow: color(colors?.shadow ?? defaultColors.shadow)
+      shadow: color(colors.ui?.shadow ?? defaultColors.shadow)
     }
   }
 
@@ -103,9 +126,9 @@ export default function createSchemeFromColors ({ colors, type = 'dark' }: creat
     success: color(colors.success ?? defaultColors.success),
     error: color(colors.error ?? defaultColors.error),
 
-    brackets1: color(colors?.brackets?.[1] ?? defaultColors.brackets[1]),
-    brackets2: color(colors?.brackets?.[2] ?? defaultColors.brackets[2]),
-    brackets3: color(colors?.brackets?.[3] ?? defaultColors.brackets[3])
+    brackets1: color(colors.syntax?.brackets?.[1] ?? defaultColors.brackets[1]),
+    brackets2: color(colors.syntax?.brackets?.[2] ?? defaultColors.brackets[2]),
+    brackets3: color(colors.syntax?.brackets?.[3] ?? defaultColors.brackets[3])
   }
 
   const git: Git = {
@@ -133,9 +156,9 @@ export default function createSchemeFromColors ({ colors, type = 'dark' }: creat
     ansiWhite: color(defaultColors.ansiWhite),
     ansiBrightWhite: color(defaultColors.ansiBrightWhite),
     background: color(colors.ui.bg),
-    border: color(colors.border),
+    border: color(colors.ui.border),
     foreground: color(colors.editor.fg).darken(0.3),
-    selectionBackground: color(colors.accent).darken(0.5).alpha(0.6)
+    selectionBackground: color(colors.primary).darken(0.5).alpha(0.6)
   }
 
   return {

@@ -1,27 +1,28 @@
 module.exports = {
   env: {
     es2021: true,
-    node: true,
+    node: true
   },
-  extends: "standard-with-typescript",
+  extends: 'standard-with-typescript',
   overrides: [
     {
       env: {
-        node: true,
+        node: true
       },
-      files: [".eslintrc.{js,cjs}"],
+      files: ['.eslintrc.{js,cjs}'],
       parserOptions: {
-        sourceType: "script",
-      },
-    },
+        sourceType: 'script'
+      }
+    }
   ],
   parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
-    project: "./tsconfig.json"
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: './tsconfig.json'
   },
   rules: {
     '@typescript-eslint/no-misused-promises': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
-  },
-};
+    '@typescript-eslint/space-before-function-paren': 'off'
+  }
+}

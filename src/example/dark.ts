@@ -1,24 +1,33 @@
 import color from 'chroma-js'
-import type { ColorScheme, Common, Editor, FullTheme, Git, Syntax, Terminal, UserInterface } from '../types.d.ts'
+import type {
+  ColorScheme,
+  Common,
+  Editor,
+  FullTheme,
+  Git,
+  Syntax,
+  Terminal,
+  UserInterface
+} from '../types.d.ts'
 
 const colors: ColorScheme = {
   editor: {
     bg: '#242936',
-    fg: '#dcdfeb'
+    fg: '#dcdfeb',
+    cursor: '#ff00e4',
+    lineNumber: '#495162'
   },
+
   ui: {
     bg: '#1f2430',
-    fg: '#6c739a'
+    fg: '#6c739a',
+    border: '#171b24',
+    shadow: '#00000050'
   },
 
-  cursor: '#ff00e4',
-  gutter: '#495162',
-
-  border: '#171b24',
-
-  primary: '#aeaaff',
+  primary: '#6c51e2',
   primaryContent: '#fff',
-  accent: '#6c51e2',
+  accent: '#aeaaff',
 
   // Misc colors
   success: '#99cc99',
@@ -26,75 +35,74 @@ const colors: ColorScheme = {
   warn: '#e0b494',
   error: '#e04a7e',
 
-  keyword: '#ad72f3',
-  variables: '#ee6584',
-  string: '#cae790',
-  func: {
-    name: '#79b9ee',
-    param: '#e0bdf2'
-  },
+  syntax: {
+    keyword: '#ad72f3',
+    variables: '#ee6584',
+    string: '#cae790',
+    func: {
+      name: '#79b9ee',
+      param: '#e0bdf2'
+    },
+    const: '#f5dd87',
+    macros: '#f29e74',
+    punctuation: '#9899c5',
+    comment: '#546e7a',
+    class: '#ffcb6b',
+    numeric: '#c9adff',
+    regexp: '#95e6cb',
 
-  const: '#f5dd87',
-  macros: '#f29e74',
-  punctuation: '#9899c5',
-  comment: '#546e7a',
-  class: '#ffcb6b',
-  numeric: '#c9adff',
-  regexp: '#95e6cb',
-
-  shadow: '#00000050',
-
-  brackets: {
-    1: '#f3a84d',
-    2: '#e68aff',
-    3: '#49d9e8'
+    brackets: {
+      1: '#f3a84d',
+      2: '#e68aff',
+      3: '#49d9e8'
+    }
   }
 }
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 const syntax: Syntax = {
-  keyword: color(colors.keyword),
+  keyword: color(colors.syntax.keyword),
 
   func: {
-    name: color(colors.func!.name!),
-    param: color(colors.func!.param!)
+    name: color(colors.syntax.func!.name!),
+    param: color(colors.syntax.func!.param!)
   },
 
   class: {
-    name: color(colors.class)
+    name: color(colors.syntax.class)
   },
 
   langs: {
     html: {
-      tag: color(colors.punctuation),
-      tagName: color(colors.variables),
-      attributes: color(colors.macros).luminance(0.35).brighten(0.3)
+      tag: color(colors.syntax.punctuation),
+      tagName: color(colors.syntax.variables),
+      attributes: color(colors.syntax.macros!).luminance(0.35).brighten(0.3)
     },
     css: {
-      class: color(colors.class),
-      id: color(colors.regexp),
-      pseudo: color(colors.punctuation),
-      properties: color(colors.func!.name!).brighten(0.75),
-      units: color(colors.numeric)
+      class: color(colors.syntax.class),
+      id: color(colors.syntax.regexp!),
+      pseudo: color(colors.syntax.punctuation),
+      properties: color(colors.syntax.func!.name!).brighten(0.75),
+      units: color(colors.syntax.numeric)
     },
     markup: {
       heading: color(colors.primary),
-      punctuation: color(colors.macros)
+      punctuation: color(colors.syntax.macros!)
     }
   },
 
-  punctuation: color(colors.punctuation),
-  comment: color(colors.comment),
-  string: color(colors.string),
-  numeric: color(colors.numeric),
+  punctuation: color(colors.syntax.punctuation),
+  comment: color(colors.syntax.comment!),
+  string: color(colors.syntax.string),
+  numeric: color(colors.syntax.numeric),
   operator: color(colors.info!),
 
-  variables: color(colors.variables),
-  constant: color(colors.const),
-  macros: color(colors.macros),
+  variables: color(colors.syntax.variables),
+  constant: color(colors.syntax.const!),
+  macros: color(colors.syntax.macros!),
 
-  regexp: color(colors.regexp),
+  regexp: color(colors.syntax.regexp!),
   special: color(colors.warn!),
   misc: color(colors.accent)
 }
@@ -102,7 +110,7 @@ const syntax: Syntax = {
 const editor: Editor = {
   bg: color(colors.editor.bg),
   fg: color(colors.editor.fg),
-  cursor: color(colors.cursor),
+  cursor: color(colors.editor.cursor),
   selection: {
     active: color(colors.accent).alpha(0.25),
     inactive: color(colors.accent).alpha(0.15)
@@ -111,9 +119,9 @@ const editor: Editor = {
     active: color(colors.accent).brighten(0.5).alpha(0.5),
     inactive: color(colors.accent).alpha(0.25)
   },
-  gutter: {
-    active: color(colors.gutter),
-    normal: color(colors.gutter).alpha(0.8)
+  lineNumber: {
+    active: color(colors.editor.lineNumber!),
+    normal: color(colors.editor.lineNumber!).alpha(0.6)
   },
   indentGuide: {
     active: color(colors.primary).alpha(0.6),
@@ -124,7 +132,7 @@ const editor: Editor = {
 const ui: UserInterface = {
   fg: color(colors.ui.fg),
   bg: color(colors.ui.bg),
-  border: color(colors.border),
+  border: color(colors.ui.border),
   borderActive: color(colors.primary),
   selection: {
     active: color(colors.accent).alpha(0.4),
@@ -133,7 +141,7 @@ const ui: UserInterface = {
   },
   panel: {
     bg: color(colors.editor.bg),
-    shadow: color(colors.shadow!)
+    shadow: color(colors.ui.shadow!)
   }
 }
 
@@ -145,9 +153,9 @@ const common: Common = {
   warn: color(colors.warn!),
   success: color(colors.success!),
   error: color(colors.error!),
-  brackets1: color(colors.brackets![1]!),
-  brackets2: color(colors.brackets![2]!),
-  brackets3: color(colors.brackets![3]!)
+  brackets1: color(colors.syntax.brackets![1]!),
+  brackets2: color(colors.syntax.brackets![2]!),
+  brackets3: color(colors.syntax.brackets![3]!)
 }
 
 const git: Git = {
@@ -175,7 +183,7 @@ const terminal: Terminal = {
   ansiWhite: color('#d7dae0'),
   ansiBrightWhite: color('#e6e6e6'),
   background: color(colors.ui.bg),
-  border: color(colors.border),
+  border: color(colors.ui.border),
   foreground: color(colors.editor.fg).darken(0.3),
   selectionBackground: color(colors.accent).darken(0.5).alpha(0.6)
 }
@@ -196,4 +204,4 @@ const theme: FullTheme = {
 
 // const theme = createSchemeFromColors(colors, 'dark')
 
-export default theme
+export { theme as exampleTheme, colors as exampleColors }

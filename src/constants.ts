@@ -5,6 +5,9 @@ export const defaultColors = {
   info: '#79b6ff',
   success: '#99cc99',
 
+  comment: '#546e7a',
+  lineNumber: '#dcdfeb',
+
   // func
   func: {
     name: '#79b9ee'
