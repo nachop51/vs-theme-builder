@@ -89,10 +89,8 @@ export function createSchemeFromColors({
       inactive: color(colors.primary).alpha(0.25)
     },
     lineNumber: {
-      active: color(colors.editor.lineNumber ?? defaultColors.lineNumber),
-      normal: color(colors.editor.lineNumber ?? defaultColors.lineNumber).alpha(
-        0.4
-      )
+      active: color(colors.editor.lineNumber ?? colors.ui.fg),
+      normal: color(colors.editor.lineNumber ?? colors.ui.fg).alpha(0.4)
     },
     indentGuide: {
       active: color(colors.accent).alpha(0.6),

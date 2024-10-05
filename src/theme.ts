@@ -77,8 +77,6 @@ export function buildThemeFromScheme({
       'editorIndentGuide.activeBackground1':
         scheme.editor.indentGuide.active.hex(),
 
-      // line numbers
-      'editorLineNumber.foreground': scheme.editor.lineNumber.normal.hex(),
       'editorRuler.foreground': scheme.editor.indentGuide.normal.hex(),
       'editorWhitespace.foreground': scheme.editor.lineNumber.normal.hex(),
 
@@ -332,8 +330,15 @@ export function buildThemeFromScheme({
       'inputValidation.warningBorder': scheme.common.warn.hex(),
 
       // Current cursor line
-      'editor.lineHighlightBackground': scheme.ui.border.brighten(0.1).hex(),
-      'editorLineNumber.activeForeground': scheme.editor.fg.hex(),
+      'editor.lineHighlightBackground':
+        scheme.type === 'dark'
+          ? scheme.ui.bg.brighten(0.2).hex()
+          : scheme.ui.bg.darken(0.2).hex(),
+
+      // line numbers
+      'editorLineNumber.foreground': scheme.editor.lineNumber.normal.hex(),
+      'editorLineNumber.activeForeground':
+        scheme.editor.lineNumber.active.hex(),
 
       // Side bar
       'sideBar.background': scheme.ui.bg.hex(),

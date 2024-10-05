@@ -1,6 +1,6 @@
 {
   "name": "vs-theme-builder",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "",
   "type": "module",
   "main": "dist/index.js",
@@ -20,7 +20,7 @@
   "scripts": {
     "lint": "eslint . --ext .ts --fix",
     "build": "tsc",
-    "prepublish": "npm run lint && npm test && npm run build",
+    "prepare": "npm run lint && npm test && npm run build",
     "dev": "tsx --watch src/build.ts",
     "test": "node --test --import tsx --test-reporter spec ./src/**/*.test.ts"
   },
