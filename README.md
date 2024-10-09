@@ -50,7 +50,7 @@ And additionaly, if you want to publish your theme, refer to the [official docum
 
 That's it! You can now enjoy your custom theme in VSCode.
 
-<video controls src="https://vs-theme-builder.nachop.xyz/demo.mp4" title="Demo of vs-theme-builder"></video>
+https://github.com/user-attachments/assets/2ce884ad-f5cc-4a7e-9c73-a1b96400aea1
 
 ## 🎨 Examples
 
