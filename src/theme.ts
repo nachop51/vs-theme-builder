@@ -83,6 +83,7 @@ export function buildThemeFromScheme({
       // errors and warnings
       'editorWarning.foreground': scheme.common.warn.hex(),
       'editorError.foreground': scheme.common.error.hex(),
+      'editorInfo.foreground': scheme.common.info.hex(),
 
       'editorMarkerNavigation.background': scheme.ui.panel.bg.hex(),
 
@@ -110,6 +111,7 @@ export function buildThemeFromScheme({
       'editorOverviewRuler.deletedForeground': scheme.git.deleted.hex(),
       'editorOverviewRuler.errorForeground': scheme.common.error.hex(),
       'editorOverviewRuler.warningForeground': scheme.common.warn.hex(),
+      'editorOverviewRuler.infoForeground': scheme.common.info.hex(),
       'editorOverviewRuler.bracketMatchForeground':
         scheme.editor.lineNumber.normal.alpha(0.7).hex(),
       'editorOverviewRuler.wordHighlightForeground': scheme.git.modified
@@ -401,8 +403,8 @@ export function buildThemeFromScheme({
       'debugToolBar.background': scheme.ui.panel.bg.hex(),
       'debugExceptionWidget.border': scheme.ui.border.hex(),
       'debugExceptionWidget.background': scheme.ui.panel.bg.hex(),
-      'debugIcon.breakpointForeground': scheme.syntax.operator.hex(),
-      'debugIcon.breakpointDisabledForeground': scheme.syntax.operator
+      'debugIcon.breakpointForeground': scheme.common.info.hex(),
+      'debugIcon.breakpointDisabledForeground': scheme.common.info
         .alpha(0.5)
         .hex(),
       'debugConsoleInputIcon.foreground': scheme.common.primary.hex(),
@@ -447,6 +449,7 @@ export function buildThemeFromScheme({
 
       'minimap.warningHighlight': scheme.common.warn.hex(),
       'minimap.errorHighlight': scheme.common.error.hex(),
+      'minimap.infoHighlight': scheme.common.info.hex(),
 
       'minimapGutter.addedBackground': scheme.git.added.hex(),
       'minimapGutter.deletedBackground': scheme.git.deleted.hex(),
@@ -579,7 +582,7 @@ export function buildThemeFromScheme({
       },
       {
         name: 'Language variable (this in js, etc)',
-        scope: ['variable.language.this.js'],
+        scope: ['variable.language.this'],
         settings: {
           fontStyle: 'italic',
           foreground: scheme.syntax.keyword.brighten(0.5).hex()
@@ -647,7 +650,7 @@ export function buildThemeFromScheme({
           'variable.parameter.function.language.special.cls.python'
         ],
         settings: {
-          foreground: scheme.syntax.constant.brighten(0.5).hex()
+          foreground: scheme.syntax.keyword.brighten(0.5).hex()
         }
       },
       {
@@ -1112,6 +1115,13 @@ export function buildThemeFromScheme({
         scope: ['string.other.link.title.markdown'],
         settings: {
           foreground: scheme.syntax.func.name.hex()
+        }
+      },
+      {
+        name: 'Markdown - Inline code',
+        scope: ['markup.inline.raw.string.markdown'],
+        settings: {
+          foreground: scheme.syntax.variables.hex()
         }
       },
       {

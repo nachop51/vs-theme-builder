@@ -71,7 +71,6 @@ export interface Syntax {
   comment: Color
   string: Color
   numeric: Color
-  operator: Color
 
   variables: Color
   constant: Color

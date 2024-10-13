@@ -63,7 +63,6 @@ export function createSchemeFromColors({
     comment: color(colors.syntax.comment ?? defaultColors.comment),
     string: color(colors.syntax.string),
     numeric: color(colors.syntax.numeric),
-    operator: color(colors.info ?? defaultColors.info),
 
     variables: color(colors.syntax.variables),
     constant: color(colors.syntax.const ?? colors.syntax.variables),

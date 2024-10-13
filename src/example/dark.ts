@@ -96,7 +96,6 @@ const syntax: Syntax = {
   comment: color(colors.syntax.comment!),
   string: color(colors.syntax.string),
   numeric: color(colors.syntax.numeric),
-  operator: color(colors.info!),
 
   variables: color(colors.syntax.variables),
   constant: color(colors.syntax.const!),
