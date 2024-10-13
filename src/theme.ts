@@ -1178,14 +1178,16 @@ interface BuildThemeFromColorsOptions {
   name: string
   colors: ColorScheme
   isBordered?: boolean
+  type?: 'dark' | 'light'
 }
 
 export function buildThemeFromColors({
   name,
   colors,
-  isBordered = false
+  isBordered = false,
+  type = 'dark'
 }: BuildThemeFromColorsOptions) {
-  const scheme = createSchemeFromColors({ colors })
+  const scheme = createSchemeFromColors({ colors, type })
 
   return buildThemeFromScheme({
     name,

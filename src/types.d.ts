@@ -26,12 +26,14 @@ interface BuildThemeFromColorsOptions {
   name: string
   colors: ColorScheme
   isBordered?: boolean
+  type?: 'dark' | 'light'
 }
 
 export declare function buildThemeFromColors({
   name,
   colors,
-  isBordered
+  isBordered,
+  type
 }: BuildThemeFromColorsOptions): object
 
 export declare const exampleTheme: FullTheme
