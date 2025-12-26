@@ -1,5 +1,5 @@
 import { createSchemeFromColors } from './scheme.js'
-import { type ColorScheme, type FullTheme } from './types.js'
+import type { ColorScheme, FullTheme } from './types.js'
 
 interface BuildThemeFromSchemeOptions {
   name: string
@@ -10,23 +10,23 @@ interface BuildThemeFromSchemeOptions {
 export function buildThemeFromScheme({
   name,
   scheme,
-  isBordered = true
+  isBordered = true,
 }: BuildThemeFromSchemeOptions) {
   return {
     name: `${name}${isBordered ? ' Bordered' : ''}`,
     type: scheme.type,
     semanticHighlighting: true,
     semanticTokenColors: {
-      'parameter.label': scheme.editor.fg.hex(),
+      'parameter.label': scheme.syntax.func.param.hex(),
       'variable.constant': {
-        foreground: scheme.syntax.constant.brighten(0.4).hex()
+        foreground: scheme.syntax.constant.hex(),
       },
       'variable.defaultLibrary': {
-        foreground: scheme.syntax.constant.brighten(0.4).hex()
+        foreground: scheme.syntax.constant.brighten(0.4).hex(),
       },
       macro: {
-        foreground: scheme.syntax.macros.hex()
-      }
+        foreground: scheme.syntax.macros.hex(),
+      },
     },
     colors: {
       // Base colors
@@ -473,7 +473,7 @@ export function buildThemeFromScheme({
       'terminal.ansiBrightBlue': scheme.terminal.ansiBrightBlue.hex(),
       'terminal.ansiBrightMagenta': scheme.terminal.ansiBrightMagenta.hex(),
       'terminal.ansiBrightCyan': scheme.terminal.ansiBrightCyan.hex(),
-      'terminal.ansiBrightWhite': scheme.terminal.ansiBrightWhite.hex()
+      'terminal.ansiBrightWhite': scheme.terminal.ansiBrightWhite.hex(),
     },
     tokenColors: [
       {
@@ -481,8 +481,8 @@ export function buildThemeFromScheme({
         scope: ['comment', 'punctuation.definition.comment'],
         settings: {
           fontStyle: 'italic bold',
-          foreground: scheme.syntax.comment.hex()
-        }
+          foreground: scheme.syntax.comment.hex(),
+        },
       },
       {
         name: 'Variables',
@@ -490,178 +490,189 @@ export function buildThemeFromScheme({
           'variable',
           'variable.parameter.function-call',
           'variable.language',
-          'entity.name.variable.local.cs'
+          'entity.name.variable.local.cs',
+          'meta.method.body',
+          'source.dart',
         ],
         settings: {
-          foreground: scheme.syntax.variables.hex()
-        }
+          foreground: scheme.syntax.variables.hex(),
+        },
       },
       {
         name: 'Const variables',
         scope: ['variable.other.constant', 'constant.other.color'],
         settings: {
-          foreground: scheme.syntax.constant.hex()
-        }
+          foreground: scheme.syntax.constant.hex(),
+        },
       },
       {
         name: 'Language defined stuff (functions, methods, etc)',
         scope: ['variable.member'],
         settings: {
-          foreground: scheme.syntax.macros.hex()
-        }
+          foreground: scheme.syntax.macros.hex(),
+        },
       },
       {
         name: 'Invalid',
         scope: ['invalid'],
         settings: {
-          foreground: scheme.common.error.hex()
-        }
+          foreground: scheme.common.error.hex(),
+        },
       },
       {
         name: 'Import, Export, Return, etc',
         scope: ['keyword', 'keyword.control', 'keyword.other'],
         settings: {
-          foreground: scheme.syntax.keyword.hex()
-        }
+          foreground: scheme.syntax.keyword.hex(),
+        },
       },
       {
         name: 'Assignment Operator, others',
         scope: ['storage.type', 'storage.modifier'],
         settings: {
-          foreground: scheme.syntax.keyword.hex()
-        }
+          foreground: scheme.syntax.keyword.hex(),
+        },
       },
       {
         name: 'Operators',
         scope: ['keyword.operator', 'keyword.operator.assignment.go'],
         settings: {
-          foreground: scheme.syntax.keyword.hex()
-        }
+          foreground: scheme.syntax.keyword.hex(),
+        },
       },
       {
         name: 'String',
         scope: ['string', 'constant.other.symbol'],
         settings: {
-          foreground: scheme.syntax.string.hex()
-        }
+          foreground: scheme.syntax.string.hex(),
+        },
       },
       {
         name: 'Semi colon, comma, etc',
-        scope: ['punctuation.separator', 'punctuation.terminator'],
+        scope: [
+          'punctuation.separator',
+          'punctuation.terminator',
+          'punctuation.comma',
+          'punctuation.dot',
+          'punctuation.separator.dart',
+          'punctuation.comma.dart',
+          'punctuation.dot.dart',
+          'other.source.dart',
+        ],
         settings: {
           foreground: scheme.syntax.punctuation.hex(),
-          fontStyle: 'bold'
-        }
+          fontStyle: 'bold',
+        },
       },
       {
         name: 'Operator, Misc', // I don't know what this is for
         scope: [
           'constant.other.color',
           'keyword.other.template',
-          'keyword.other.substitution'
+          'keyword.other.substitution',
         ],
         settings: {
-          foreground: scheme.syntax.misc.hex()
-        }
+          foreground: scheme.syntax.misc.hex(),
+        },
       },
       {
         name: 'Function name',
         scope: ['entity.name.function', 'support.function.go'],
         settings: {
           foreground: scheme.syntax.func.name.hex(),
-          fontStyle: 'bold'
-        }
+          fontStyle: 'bold',
+        },
       },
       {
         name: 'Library function (fetch in js, etc)',
         scope: ['support.function', 'support.macro'],
         settings: {
           foreground: scheme.syntax.func.name.brighten(0.75).hex(),
-          fontStyle: 'bold'
-        }
+          fontStyle: 'bold',
+        },
       },
       {
         name: 'Language variable (this in js, etc)',
         scope: ['variable.language.this'],
         settings: {
           fontStyle: 'italic',
-          foreground: scheme.syntax.keyword.brighten(0.5).hex()
-        }
+          foreground: scheme.syntax.keyword.brighten(0.5).hex(),
+        },
       },
       {
         name: 'Function call',
         scope: [
           'variable.function',
           'variable.annotation',
-          'meta.function-call.generic'
+          'meta.function-call.generic',
         ],
         settings: {
-          foreground: scheme.syntax.func.name.hex()
-        }
+          foreground: scheme.syntax.func.name.hex(),
+        },
       },
       {
         name: 'Library constant',
         scope: ['support.constant'],
         settings: {
           fontStyle: 'italic',
-          foreground: scheme.syntax.macros.hex()
-        }
+          foreground: scheme.syntax.macros.hex(),
+        },
       },
       {
         name: 'Import strings and packages',
         scope: ['entity.name.import', 'entity.name.package'],
         settings: {
-          foreground: scheme.syntax.string.darken(0.2).hex()
-        }
+          foreground: scheme.syntax.string.darken(0.2).hex(),
+        },
       },
       {
         name: 'Import packages color (Java, CS)',
         scope: [
           'storage.modifier.import.java',
-          'entity.name.type.namespace.cs'
+          'entity.name.type.namespace.cs',
         ],
         settings: {
-          foreground: scheme.syntax.class.name.hex()
-        }
+          foreground: scheme.syntax.class.name.hex(),
+        },
       },
       {
         name: 'diff.header',
         scope: ['meta.diff', 'meta.diff.header'],
         settings: {
-          foreground: scheme.common.primary.hex()
-        }
+          foreground: scheme.common.primary.hex(),
+        },
       },
       {
         name: 'String interpolation',
         scope: [
           'punctuation.definition.template-expression.begin',
           'punctuation.definition.template-expression.end',
-          'punctuation.section.embedded'
+          'punctuation.section.embedded',
         ],
         settings: {
-          foreground: scheme.syntax.keyword.hex()
-        }
+          foreground: scheme.syntax.keyword.hex(),
+        },
       },
       // Python things
       {
         name: 'Python special parameter -> self & cls',
         scope: [
           'variable.parameter.function.language.special.self.python',
-          'variable.parameter.function.language.special.cls.python'
+          'variable.parameter.function.language.special.cls.python',
         ],
         settings: {
-          foreground: scheme.syntax.keyword.brighten(0.5).hex()
-        }
+          foreground: scheme.syntax.keyword.brighten(0.5).hex(),
+        },
       },
       {
         name: 'python function decorator @',
         scope: [
           'meta.function.decorator.python',
-          'support.token.decorator.python,meta.function.decorator.identifier.python'
+          'support.token.decorator.python,meta.function.decorator.identifier.python',
         ],
         settings: {
-          foreground: scheme.syntax.constant.brighten(0.5).hex()
-        }
+          foreground: scheme.syntax.constant.brighten(0.5).hex(),
+        },
       },
       // ------------------
       {
@@ -673,18 +684,18 @@ export function buildThemeFromScheme({
           'variable.parameter.function',
           'variable.parameter',
           'meta.definition.variable.name',
-          'meta.parameter'
+          'meta.parameter',
         ],
         settings: {
           foreground: scheme.syntax.func.param.hex(),
-          fontStyle: 'italic'
-        }
+          fontStyle: 'italic',
+        },
       },
       {
         scope: ['message.error'],
         settings: {
-          foreground: scheme.common.error.hex()
-        }
+          foreground: scheme.common.error.hex(),
+        },
       },
       {
         name: 'Number, Constant, Tag Attribute, Embedded',
@@ -694,11 +705,11 @@ export function buildThemeFromScheme({
           'support.constant',
           'constant.character',
           'constant.escape',
-          'keyword.other.unit'
+          'keyword.other.unit',
         ],
         settings: {
-          foreground: scheme.syntax.numeric.hex()
-        }
+          foreground: scheme.syntax.numeric.hex(),
+        },
       },
       {
         name: 'Tag',
@@ -706,22 +717,22 @@ export function buildThemeFromScheme({
         settings: {
           foreground:
             scheme.syntax.langs?.html?.tag?.hex() ??
-            scheme.syntax.variables.hex()
-        }
+            scheme.syntax.variables.hex(),
+        },
       },
       {
         name: 'Function and & Lambda arrow',
         scope: ['storage.type.function'],
         settings: {
-          foreground: scheme.syntax.keyword.hex()
-        }
+          foreground: scheme.syntax.keyword.hex(),
+        },
       },
       {
         name: 'Accessor',
         scope: ['punctuation.accessor'],
         settings: {
-          foreground: scheme.syntax.macros.hex()
-        }
+          foreground: scheme.syntax.macros.hex(),
+        },
       },
       {
         name: 'String, Symbols, Inherited Class, Markup Heading',
@@ -730,35 +741,35 @@ export function buildThemeFromScheme({
           'entity.other.inherited-class',
           'markup.heading',
           'markup.inserted.git_gutter',
-          'meta.group.braces.curly constant.other.object.key.js string.unquoted.label.js'
+          'meta.group.braces.curly constant.other.object.key.js string.unquoted.label.js',
         ],
         settings: {
-          foreground: scheme.syntax.string.hex()
-        }
+          foreground: scheme.syntax.string.hex(),
+        },
       },
       {
         name: 'go operator',
         scope: [
           'keyword.operator.arithmetic.go',
-          'keyword.operator.address.go'
+          'keyword.operator.address.go',
         ],
         settings: {
-          foreground: scheme.syntax.keyword.hex()
-        }
+          foreground: scheme.syntax.keyword.hex(),
+        },
       },
       {
         name: 'Go package name',
         scope: ['entity.name.package.go'],
         settings: {
-          foreground: scheme.syntax.constant.hex()
-        }
+          foreground: scheme.syntax.constant.hex(),
+        },
       },
       {
         name: 'Go stuff',
         scope: 'source.go storage.type',
         settings: {
-          foreground: scheme.syntax.constant.hex()
-        }
+          foreground: scheme.syntax.constant.hex(),
+        },
       },
       {
         name: 'Class, Support',
@@ -771,47 +782,47 @@ export function buildThemeFromScheme({
           'support.other.namespace.php',
           'support.type.sys-types',
           'variable.other.object.cs',
-          'entity.other.inherited-class'
+          'entity.other.inherited-class',
         ],
         settings: {
-          foreground: scheme.syntax.class.name.hex()
-        }
+          foreground: scheme.syntax.class.name.hex(),
+        },
       },
       {
         name: 'Entity Types',
         scope: ['support.type'],
         settings: {
-          foreground: scheme.syntax.class.name.hex()
-        }
+          foreground: scheme.syntax.class.name.hex(),
+        },
       },
       {
         name: 'Sub-methods',
         scope: [
           'entity.name.module.js',
           'variable.import.parameter.js',
-          'variable.other.class.js'
+          'variable.other.class.js',
         ],
         settings: {
-          foreground: scheme.syntax.keyword.brighten(0.5).hex()
-        }
+          foreground: scheme.syntax.keyword.brighten(0.5).hex(),
+        },
       },
       {
         name: 'entity.name.method.js',
         scope: ['entity.name.method.js'],
         settings: {
           fontStyle: 'italic',
-          foreground: scheme.syntax.func.name.hex()
-        }
+          foreground: scheme.syntax.func.name.hex(),
+        },
       },
       {
         name: 'meta.method.js',
         scope: [
           'meta.class-method.js entity.name.function.js',
-          'variable.function.constructor'
+          'variable.function.constructor',
         ],
         settings: {
-          foreground: scheme.syntax.func.name.hex()
-        }
+          foreground: scheme.syntax.func.name.hex(),
+        },
       },
       // JS Stuff
       {
@@ -819,21 +830,21 @@ export function buildThemeFromScheme({
         scope: [
           'meta.decorator variable.other',
           'meta.decorator punctuation.decorator',
-          'storage.type.annotation'
+          'storage.type.annotation',
         ],
         settings: {
-          foreground: scheme.syntax.constant.brighten(0.5).hex()
-        }
+          foreground: scheme.syntax.constant.brighten(0.5).hex(),
+        },
       },
       {
         name: 'ES7 Bind Operator',
         scope: [
-          'source.js constant.other.object.key.js string.unquoted.label.js'
+          'source.js constant.other.object.key.js string.unquoted.label.js',
         ],
         settings: {
           fontStyle: 'italic',
-          foreground: scheme.syntax.variables.darken(0.5).hex()
-        }
+          foreground: scheme.syntax.variables.darken(0.5).hex(),
+        },
       },
       // HTML Related
       {
@@ -842,8 +853,8 @@ export function buildThemeFromScheme({
         settings: {
           foreground:
             scheme.syntax.langs?.html?.tagName?.hex() ??
-            scheme.syntax.variables.hex()
-        }
+            scheme.syntax.variables.hex(),
+        },
       },
       {
         name: 'HTML <> Tags',
@@ -851,13 +862,13 @@ export function buildThemeFromScheme({
           'punctuation.definition.tag',
           'punctuation.definition.tag.html',
           'punctuation.definition.tag.begin.html',
-          'punctuation.definition.tag.end.html'
+          'punctuation.definition.tag.end.html',
         ],
         settings: {
           foreground:
             scheme.syntax?.langs?.html?.tag?.hex() ??
-            scheme.syntax.punctuation.hex()
-        }
+            scheme.syntax.punctuation.hex(),
+        },
       },
       {
         name: 'HTML Tag HTML inside (text)',
@@ -873,11 +884,11 @@ export function buildThemeFromScheme({
           'text.html.basic source.html string.quoted.double',
           'text.html.basic source.html string.quoted.single',
           'text.html.basic source.html string.unquoted',
-          'text.html.derivative'
+          'text.html.derivative',
         ],
         settings: {
-          foreground: scheme.editor.fg.hex()
-        }
+          foreground: scheme.editor.fg.hex(),
+        },
       },
       {
         name: 'HTML & JSX Properties/Attributes',
@@ -886,8 +897,8 @@ export function buildThemeFromScheme({
           foreground:
             scheme.syntax.langs?.html?.attributes?.hex() ??
             scheme.syntax.macros.hex(),
-          fontStyle: 'italic'
-        }
+          fontStyle: 'italic',
+        },
       },
       // CSS
       {
@@ -897,13 +908,13 @@ export function buildThemeFromScheme({
           'source.sass support.type.property-name',
           'source.scss support.type.property-name',
           'source.postcss support.type.property-name',
-          'support.type.property-name.css'
+          'support.type.property-name.css',
         ],
         settings: {
           foreground:
             scheme.syntax.langs?.css?.properties?.hex() ??
-            scheme.syntax.func.name.brighten(0.75).hex()
-        }
+            scheme.syntax.func.name.brighten(0.75).hex(),
+        },
       },
       {
         name: 'CSS Classes',
@@ -911,8 +922,8 @@ export function buildThemeFromScheme({
         settings: {
           foreground:
             scheme.syntax.langs?.css?.class?.hex() ??
-            scheme.syntax.class.name.hex()
-        }
+            scheme.syntax.class.name.hex(),
+        },
       },
       {
         name: 'CSS ID Selector',
@@ -920,21 +931,21 @@ export function buildThemeFromScheme({
         settings: {
           foreground:
             scheme.syntax.langs?.css?.id?.hex() ??
-            scheme.syntax.func.name.brighten(0.5).hex()
-        }
+            scheme.syntax.func.name.brighten(0.5).hex(),
+        },
       },
       {
         name: 'Pseudo CSS',
         scope: [
           'entity.other.attribute-name.pseudo-element',
-          'entity.other.attribute-name.pseudo-class'
+          'entity.other.attribute-name.pseudo-class',
         ],
         settings: {
           foreground:
             scheme.syntax.langs?.css?.pseudo?.hex() ??
             scheme.syntax.constant.hex(),
-          fontStyle: 'italic'
-        }
+          fontStyle: 'italic',
+        },
       },
       {
         name: 'Wildcard(*) selector in Stylesheets',
@@ -942,11 +953,11 @@ export function buildThemeFromScheme({
           'entity.name.tag.wildcard.css',
           'entity.name.tag.wildcard.less',
           'entity.name.tag.wildcard.scss',
-          'entity.name.tag.wildcard.sass'
+          'entity.name.tag.wildcard.sass',
         ],
         settings: {
-          foreground: scheme.syntax.variables.brighten(0.3).hex()
-        }
+          foreground: scheme.syntax.variables.brighten(0.3).hex(),
+        },
       },
       {
         name: 'CSS Units',
@@ -954,8 +965,8 @@ export function buildThemeFromScheme({
         settings: {
           foreground:
             scheme.syntax.langs?.css?.units?.hex() ??
-            scheme.syntax.numeric.hex()
-        }
+            scheme.syntax.numeric.hex(),
+        },
       },
       {
         name: 'CSS Property Value',
@@ -965,19 +976,19 @@ export function buildThemeFromScheme({
           'meta.property-value.css',
           'meta.property-list.css',
           'source.css',
-          'constant.other.color.rgb-value.hex.css'
+          'constant.other.color.rgb-value.hex.css',
         ],
         settings: {
-          foreground: scheme.syntax.macros.hex()
-        }
+          foreground: scheme.syntax.macros.hex(),
+        },
       },
       {
         name: 'CSS Important Keyword',
         scope: 'keyword.other.important',
         settings: {
           foreground: scheme.syntax.keyword.hex(),
-          fontStyle: 'italic'
-        }
+          fontStyle: 'italic',
+        },
       },
       {
         name: 'CSS browser prefix',
@@ -986,52 +997,52 @@ export function buildThemeFromScheme({
           'source.sass support.type',
           'source.scss support.type',
           'source.less support.type',
-          'source.stylus support.type'
+          'source.stylus support.type',
         ],
         settings: {
-          foreground: scheme.ui.fg.darken(0.6).hex()
-        }
+          foreground: scheme.ui.fg.darken(0.6).hex(),
+        },
       },
       // RegExp & Escape Chars, URLS
       {
         name: 'Regular Expressions and Escape chars',
         scope: ['string.regexp', 'constant.character', 'constant.other'],
         settings: {
-          foreground: scheme.syntax.regexp.hex()
-        }
+          foreground: scheme.syntax.regexp.hex(),
+        },
       },
       {
         name: 'URL',
         scope: ['*url*', '*link*', '*uri*'],
         settings: {
-          fontStyle: 'underline'
-        }
+          fontStyle: 'underline',
+        },
       },
       // ------------ JSON ------------
       {
         name: 'JSON Keys',
         scope: [
-          'source.json meta.structure.dictionary.json support.type.property-name.json'
+          'source.json meta.structure.dictionary.json support.type.property-name.json',
         ],
         settings: {
-          foreground: scheme.syntax.variables.hex()
-        }
+          foreground: scheme.syntax.variables.hex(),
+        },
       },
       // ------------ Markdown ------------
       {
         name: 'Markdown - Plain',
         scope: [
           'text.html.markdown',
-          'punctuation.definition.list_item.markdown'
+          'punctuation.definition.list_item.markdown',
         ],
         settings: {
-          foreground: scheme.editor.fg.hex()
-        }
+          foreground: scheme.editor.fg.hex(),
+        },
       },
       {
         name: 'Markdown - Heading symbols',
         scope: [
-          'markup.heading.markdown punctuation.definition.heading.markdown'
+          'markup.heading.markdown punctuation.definition.heading.markdown',
         ],
         settings: {
           fontStyle: 'bold',
@@ -1039,8 +1050,8 @@ export function buildThemeFromScheme({
             scheme.syntax.langs?.markup?.heading ?? scheme.syntax.variables
           )
             .darken(2)
-            .hex()
-        }
+            .hex(),
+        },
       },
       {
         name: 'Markdown - Heading text',
@@ -1049,8 +1060,8 @@ export function buildThemeFromScheme({
           fontStyle: 'bold',
           foreground:
             scheme.syntax.langs?.markup?.heading?.hex() ??
-            scheme.syntax.variables.hex()
-        }
+            scheme.syntax.variables.hex(),
+        },
       },
       {
         name: 'Markup - List punctuation',
@@ -1058,24 +1069,24 @@ export function buildThemeFromScheme({
         settings: {
           foreground:
             scheme.syntax.langs?.markup?.punctuation?.hex() ??
-            scheme.syntax.punctuation.hex()
-        }
+            scheme.syntax.punctuation.hex(),
+        },
       },
       {
         name: 'Markup - Italic',
         scope: ['markup.italic'],
         settings: {
           fontStyle: 'italic',
-          foreground: scheme.syntax.regexp.hex()
-        }
+          foreground: scheme.syntax.regexp.hex(),
+        },
       },
       {
         name: 'Markup - Bold',
         scope: ['markup.bold', 'markup.bold string'],
         settings: {
           fontStyle: 'bold',
-          foreground: scheme.syntax.regexp.hex()
-        }
+          foreground: scheme.syntax.regexp.hex(),
+        },
       },
       {
         name: 'Markup - Bold-Italic',
@@ -1085,51 +1096,51 @@ export function buildThemeFromScheme({
           'markup.quote markup.bold',
           'markup.bold markup.italic string',
           'markup.italic markup.bold string',
-          'markup.quote markup.bold string'
+          'markup.quote markup.bold string',
         ],
         settings: {
           fontStyle: 'bold italic',
-          foreground: scheme.syntax.regexp.hex()
-        }
+          foreground: scheme.syntax.regexp.hex(),
+        },
       },
       {
         name: 'Markup - Underline, Links?',
         scope: ['markup.underline'],
         settings: {
           fontStyle: 'underline',
-          foreground: scheme.syntax.func.param.hex()
-        }
+          foreground: scheme.syntax.func.param.hex(),
+        },
       },
       {
         name: 'Markdown - Blockquote',
         scope: [
           'markup.quote punctuation.definition.blockquote.markdown',
-          'markup.quote'
+          'markup.quote',
         ],
         settings: {
-          foreground: scheme.syntax.punctuation.hex()
-        }
+          foreground: scheme.syntax.punctuation.hex(),
+        },
       },
       {
         name: 'Markdown - Link',
         scope: ['string.other.link.title.markdown'],
         settings: {
-          foreground: scheme.syntax.func.name.hex()
-        }
+          foreground: scheme.syntax.func.name.hex(),
+        },
       },
       {
         name: 'Markdown - Inline code',
         scope: ['markup.inline.raw.string.markdown'],
         settings: {
-          foreground: scheme.syntax.variables.hex()
-        }
+          foreground: scheme.syntax.variables.hex(),
+        },
       },
       {
         name: 'Markdown - Link Description',
         scope: ['string.other.link.description.title.markdown'],
         settings: {
-          foreground: scheme.syntax.keyword.hex()
-        }
+          foreground: scheme.syntax.keyword.hex(),
+        },
       },
       {
         name: 'Markdown - Horizontal line (---)',
@@ -1138,39 +1149,39 @@ export function buildThemeFromScheme({
           fontStyle: 'bold',
           foreground:
             scheme.syntax.langs?.markup?.punctuation?.hex() ??
-            scheme.syntax.punctuation.hex()
-        }
+            scheme.syntax.punctuation.hex(),
+        },
       },
       {
         name: 'Markup - Table',
         scope: ['markup.table'],
         settings: {
-          foreground: scheme.editor.fg.hex()
-        }
+          foreground: scheme.editor.fg.hex(),
+        },
       },
       {
         name: 'Inserted',
         scope: ['markup.inserted'],
         settings: {
-          foreground: scheme.git.added.hex()
-        }
+          foreground: scheme.git.added.hex(),
+        },
       },
       {
         name: 'Deleted',
         scope: ['markup.deleted'],
         settings: {
-          foreground: scheme.git.deleted.hex()
-        }
+          foreground: scheme.git.deleted.hex(),
+        },
       },
       {
         name: 'Changed',
         scope: ['markup.changed'],
         settings: {
-          foreground: scheme.git.modified.hex()
-        }
-      }
+          foreground: scheme.git.modified.hex(),
+        },
+      },
       // --------------------
-    ]
+    ],
   }
 }
 
@@ -1185,13 +1196,13 @@ export function buildThemeFromColors({
   name,
   colors,
   isBordered = false,
-  type = 'dark'
+  type = 'dark',
 }: BuildThemeFromColorsOptions) {
   const scheme = createSchemeFromColors({ colors, type })
 
   return buildThemeFromScheme({
     name,
     scheme,
-    isBordered
+    isBordered,
   })
 }

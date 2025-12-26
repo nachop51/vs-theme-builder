@@ -1,7 +1,7 @@
 {
   "name": "vs-theme-builder",
-  "version": "2.1.2",
-  "description": "",
+  "version": "2.2.0",
+  "description": "Helper tool to facilitate the creation of Visual Studio Code themes programmatically.",
   "type": "module",
   "main": "dist/index.js",
   "types": "src/types.d.ts",
@@ -18,11 +18,12 @@
     "email": "nachoperalta0@gmail.com"
   },
   "scripts": {
-    "lint": "eslint . --ext .ts --fix",
-    "build": "tsc",
-    "prepare": "npm run lint && npm test && npm run build",
-    "dev": "tsx --watch src/build.ts",
-    "test": "node --test --import tsx --test-reporter spec ./src/**/*.test.ts"
+    "clean": "rm -rf ./dist",
+    "build": "bun build ./src/index.ts --outdir dist --minify --target node ",
+    "lint": "bunx --bun biome lint ./src",
+    "dev": "bun --watch src/index.ts",
+    "test": "bun test",
+    "prepublishOnly": "bun run clean && bun run lint && bun run test && bun run build"
   },
   "keywords": [
     "vscode",
@@ -37,22 +38,9 @@
     "chroma-js": "^2.4.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.10",
+    "@types/bun": "latest",
     "@types/chroma-js": "^2.4.4",
-    "@types/node": "^20.12.11",
-    "@typescript-eslint/eslint-plugin": "^6.4.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "eslint": "^8.57.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-config-standard-with-typescript": "^43.0.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.1.1",
-    "tsx": "^4.11.0",
     "typescript": "^5.4.3"
-  },
-  "eslintConfig": {
-    "parserOptions": {
-      "project": "./tsconfig.json"
-    }
   }
 }
