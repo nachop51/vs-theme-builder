@@ -5,17 +5,19 @@ export const defaultColors = {
   info: '#79b6ff',
   success: '#99cc99',
 
-  comment: '#546e7a',
+  syntax: {
+    comment: '#546e7a',
+  },
 
   // func
   func: {
-    name: '#79b9ee'
+    name: '#79b9ee',
   },
 
   brackets: {
     1: '#f3a84d',
     2: '#e68aff',
-    3: '#49d9e8'
+    3: '#49d9e8',
   },
 
   // terminal
@@ -36,5 +38,5 @@ export const defaultColors = {
   ansiWhite: '#d7dae0',
   ansiBrightWhite: '#e6e6e6',
 
-  shadow: '#00000050'
+  shadow: '#00000050',
 }

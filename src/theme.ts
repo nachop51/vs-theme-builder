@@ -17,16 +17,17 @@ export function buildThemeFromScheme({
     type: scheme.type,
     semanticHighlighting: true,
     semanticTokenColors: {
+      variable: scheme.syntax.variables.hex(),
       'parameter.label': scheme.syntax.func.param.hex(),
-      'variable.constant': {
-        foreground: scheme.syntax.constant.hex(),
-      },
-      'variable.defaultLibrary': {
-        foreground: scheme.syntax.constant.brighten(0.4).hex(),
-      },
-      macro: {
-        foreground: scheme.syntax.macros.hex(),
-      },
+      const: scheme.syntax.constant.hex(),
+      types: scheme.syntax.class.name.hex(),
+      function: scheme.syntax.func.name.hex(),
+      string: scheme.syntax.string.hex(),
+      punctuation: scheme.syntax.punctuation.hex(),
+      keyword: scheme.syntax.keyword.hex(),
+      'variable.constant': scheme.syntax.constant.hex(),
+      'variable.defaultLibrary': scheme.syntax.constant.brighten(0.4).hex(),
+      macro: scheme.syntax.macros.hex(),
     },
     colors: {
       // Base colors
@@ -333,9 +334,7 @@ export function buildThemeFromScheme({
 
       // Current cursor line
       'editor.lineHighlightBackground':
-        scheme.type === 'dark'
-          ? scheme.ui.bg.brighten(0.2).hex()
-          : scheme.ui.bg.darken(0.2).hex(),
+        scheme.editor.lineHighlightBackground.hex(),
 
       // line numbers
       'editorLineNumber.foreground': scheme.editor.lineNumber.normal.hex(),
@@ -429,7 +428,7 @@ export function buildThemeFromScheme({
       'gitDecoration.modifiedResourceForeground': scheme.git.modified.hex(),
       'gitDecoration.deletedResourceForeground': scheme.git.deleted.hex(),
       'gitDecoration.untrackedResourceForeground': scheme.git.added.hex(),
-      'gitDecoration.ignoredResourceForeground': scheme.ui.fg.alpha(0.5).hex(),
+      'gitDecoration.ignoredResourceForeground': scheme.git.ignored.hex(),
       'gitDecoration.conflictingResourceForeground': scheme.common.error
         .alpha(0.7)
         .hex(),
@@ -480,7 +479,7 @@ export function buildThemeFromScheme({
         name: 'Comment',
         scope: ['comment', 'punctuation.definition.comment'],
         settings: {
-          fontStyle: 'italic bold',
+          fontStyle: 'italic',
           foreground: scheme.syntax.comment.hex(),
         },
       },
@@ -571,7 +570,7 @@ export function buildThemeFromScheme({
           'keyword.other.substitution',
         ],
         settings: {
-          foreground: scheme.syntax.misc.hex(),
+          foreground: scheme.common.error.hex(),
         },
       },
       {
@@ -712,7 +711,7 @@ export function buildThemeFromScheme({
       },
       {
         name: 'Tag',
-        scope: ['meta.tag.sgml', 'markup.deleted.git_gutter'],
+        scope: ['meta.tag.sgml'],
         settings: {
           foreground:
             scheme.syntax.langs?.html?.tag?.hex() ??
