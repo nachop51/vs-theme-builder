@@ -7,7 +7,7 @@ import type {
   Git,
   Syntax,
   Terminal,
-  UserInterface
+  UserInterface,
 } from '../types.d.ts'
 
 const colors = {
@@ -15,14 +15,14 @@ const colors = {
     bg: '#242936',
     fg: '#dcdfeb',
     cursor: '#ff00e4',
-    lineNumber: '#495162'
+    lineNumber: '#495162',
   },
 
   ui: {
     bg: '#1f2430',
     fg: '#6c739a',
     border: '#171b24',
-    shadow: '#00000050'
+    shadow: '#00000050',
   },
 
   primary: '#6c51e2',
@@ -41,7 +41,7 @@ const colors = {
     string: '#cae790',
     func: {
       name: '#79b9ee',
-      param: '#e0bdf2'
+      param: '#e0bdf2',
     },
     const: '#f5dd87',
     macros: '#f29e74',
@@ -54,9 +54,9 @@ const colors = {
     brackets: {
       1: '#f3a84d',
       2: '#e68aff',
-      3: '#49d9e8'
-    }
-  }
+      3: '#49d9e8',
+    },
+  },
 } satisfies ColorScheme
 
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
@@ -66,30 +66,30 @@ const syntax: Syntax = {
 
   func: {
     name: color(colors.syntax.func.name),
-    param: color(colors.syntax.func.param)
+    param: color(colors.syntax.func.param),
   },
 
   class: {
-    name: color(colors.syntax.class)
+    name: color(colors.syntax.class),
   },
 
   langs: {
     html: {
       tag: color(colors.syntax.punctuation),
       tagName: color(colors.syntax.variables),
-      attributes: color(colors.syntax.macros).luminance(0.35).brighten(0.3)
+      attributes: color(colors.syntax.macros).luminance(0.35).brighten(0.3),
     },
     css: {
       class: color(colors.syntax.class),
       id: color(colors.syntax.regexp),
       pseudo: color(colors.syntax.punctuation),
       properties: color(colors.syntax.func.name).brighten(0.75),
-      units: color(colors.syntax.numeric)
+      units: color(colors.syntax.numeric),
     },
     markup: {
       heading: color(colors.primary),
-      punctuation: color(colors.syntax.macros)
-    }
+      punctuation: color(colors.syntax.macros),
+    },
   },
 
   punctuation: color(colors.syntax.punctuation),
@@ -102,8 +102,6 @@ const syntax: Syntax = {
   macros: color(colors.syntax.macros),
 
   regexp: color(colors.syntax.regexp),
-  special: color(colors.warn),
-  misc: color(colors.accent)
 }
 
 const editor: Editor = {
@@ -112,20 +110,21 @@ const editor: Editor = {
   cursor: color(colors.editor.cursor),
   selection: {
     active: color(colors.accent).alpha(0.25),
-    inactive: color(colors.accent).alpha(0.15)
+    inactive: color(colors.accent).alpha(0.15),
   },
   findMatch: {
     active: color(colors.accent).brighten(0.5).alpha(0.5),
-    inactive: color(colors.accent).alpha(0.25)
+    inactive: color(colors.accent).alpha(0.25),
   },
   lineNumber: {
     active: color(colors.editor.lineNumber),
-    normal: color(colors.editor.lineNumber).alpha(0.6)
+    normal: color(colors.editor.lineNumber).alpha(0.6),
   },
   indentGuide: {
     active: color(colors.primary).alpha(0.6),
-    normal: color(colors.primary).alpha(0.1)
-  }
+    normal: color(colors.primary).alpha(0.1),
+  },
+  lineHighlightBackground: color(colors.editor.bg).brighten(0.2),
 }
 
 const ui: UserInterface = {
@@ -136,12 +135,12 @@ const ui: UserInterface = {
   selection: {
     active: color(colors.accent).alpha(0.4),
     hover: color(colors.accent).alpha(0.1),
-    normal: color(colors.accent).alpha(0.3)
+    normal: color(colors.accent).alpha(0.3),
   },
   panel: {
     bg: color(colors.editor.bg),
-    shadow: color(colors.ui.shadow)
-  }
+    shadow: color(colors.ui.shadow),
+  },
 }
 
 const common: Common = {
@@ -154,14 +153,14 @@ const common: Common = {
   error: color(colors.error),
   brackets1: color(colors.syntax.brackets[1]),
   brackets2: color(colors.syntax.brackets[2]),
-  brackets3: color(colors.syntax.brackets[3])
+  brackets3: color(colors.syntax.brackets[3]),
 }
 
 const git: Git = {
   added: color(colors.success),
   modified: color(colors.info).alpha(0.7),
   deleted: color(colors.error).alpha(0.7),
-  ignored: color(colors.ui.fg).alpha(0.5)
+  ignored: color(colors.ui.fg).alpha(0.5),
 }
 
 const terminal: Terminal = {
@@ -184,7 +183,7 @@ const terminal: Terminal = {
   background: color(colors.ui.bg),
   border: color(colors.ui.border),
   foreground: color(colors.editor.fg).darken(0.3),
-  selectionBackground: color(colors.accent).darken(0.5).alpha(0.6)
+  selectionBackground: color(colors.accent).darken(0.5).alpha(0.6),
 }
 
 const theme: FullTheme = {
@@ -194,7 +193,7 @@ const theme: FullTheme = {
   ui,
   terminal,
   common,
-  editor
+  editor,
 }
 
 // you can use the package like this to create a theme if you want to be more specific with the colors
