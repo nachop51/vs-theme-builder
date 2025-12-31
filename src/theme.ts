@@ -492,7 +492,6 @@ export function buildThemeFromScheme({
           'variable.language',
           'entity.name.variable.local.cs',
           'meta.method.body',
-          'source.dart',
         ],
         settings: {
           foreground: scheme.syntax.variables.hex(),
