@@ -17,7 +17,6 @@ export function buildThemeFromScheme({
     type: scheme.type,
     semanticHighlighting: true,
     semanticTokenColors: {
-      variable: scheme.syntax.variables.hex(),
       'parameter.label': scheme.syntax.func.param.hex(),
       const: scheme.syntax.constant.hex(),
       types: scheme.syntax.class.name.hex(),
